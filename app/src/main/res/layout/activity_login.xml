@@ -24,7 +24,7 @@
         android:layout_width="305dp"
         android:layout_height="45dp"
         android:layout_marginTop="40dp"
-        android:background="#333"
+        android:background="@drawable/gradient_edittext"
         android:hint="email"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
