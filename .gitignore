@@ -150,3 +150,6 @@ $RECYCLE.BIN/
 
 
 # End of https://www.gitignore.io/api/windows,androidstudio
+.idea/codeStyles/
+.idea/gradle.xml
+.idea/runConfigurations.xml
