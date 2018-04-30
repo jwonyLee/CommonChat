@@ -26,7 +26,6 @@
         </activity>
         <activity android:name=".ChatActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".GoogleSingInActivity" />
         <activity android:name=".JoinUsActivity"></activity>
     </application>
 
