@@ -1,14 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/line_gradient">
-        <shape
-            android:shape="rectangle">
+    <item>
+        <shape android:shape="rectangle">
             <gradient
-                android:startColor="#005CFF"
-                android:endColor="#63d695"
                 android:angle="315"
-                android:type="linear"/>
+                android:endColor="#005CFF"
+                android:startColor="#63d695" />
+            <!-- <corners android:radius="10dp" /> -->
+            <padding
+                android:bottom="2dp"
+                android:left="2dp"
+                android:right="2dp"
+                android:top="2dp" />
         </shape>
     </item>
-
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#fff" />
+            <!-- <corners android:radius="10dp" />-->
+            <size
+                android:width="50dp"
+                android:height="50dp" />
+        </shape>
+    </item>
 </layer-list>

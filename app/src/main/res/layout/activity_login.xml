@@ -9,8 +9,8 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="로그인"
+        android:layout_marginTop="20sp"
+        android:text="@string/login"
         android:textSize="24dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,14 +21,41 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:id="@+id/editText"
         android:layout_width="305dp"
         android:layout_height="45dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/gradient_edittext"
-        android:hint="email"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
+        android:paddingLeft="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="305dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/gradient_edittext"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:paddingLeft="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+    <Button
+        android:layout_width="305dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/login"
+        android:textColor="#fff"
+        android:background="@drawable/gradient_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+
 
 </android.support.constraint.ConstraintLayout>
