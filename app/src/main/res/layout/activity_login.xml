@@ -43,7 +43,6 @@
         android:inputType="textPassword"
         android:paddingStart="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText" />
 
@@ -68,12 +67,11 @@
         android:text="or"
         android:textColor="#888"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_login" />
 
     <Button
-        android:id="@+id/button_google"
+        android:id="@+id/button_join"
         android:layout_width="305dp"
         android:layout_height="45dp"
         android:layout_marginTop="12dp"
@@ -85,10 +83,10 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Button
-        android:id="@+id/button_google2"
+        android:id="@+id/button_google"
         android:layout_width="305dp"
         android:layout_height="45dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/border_blue_edittext"
         android:drawableLeft="@drawable/google_plus_icon"
         android:paddingEnd="65dp"
@@ -97,6 +95,6 @@
         android:textColor="#333"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_google" />
+        app:layout_constraintTop_toBottomOf="@+id/button_join" />
 
 </android.support.constraint.ConstraintLayout>
