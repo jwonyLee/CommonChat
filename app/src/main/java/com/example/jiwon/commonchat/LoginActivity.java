@@ -43,6 +43,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final int RC_SIGN_IN = 9001;
     private GoogleApiClient mGoogleApiClient;
 
+    private Button moveJoin;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -58,8 +60,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // GoogleSignInOptions 생성
+        moveJoin = (Button) findViewById(R.id.mBtn_join);
 
+        // GoogleSignInOptions 생성
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder
                 (GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
