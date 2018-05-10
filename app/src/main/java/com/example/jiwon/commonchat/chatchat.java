@@ -1,5 +1,4 @@
 package com.example.jiwon.commonchat;
 
-public class chatchatchat {
-
+public class chatchat {
 }
