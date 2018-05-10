@@ -59,7 +59,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setContentView(R.layout.activity_login);
 
         // GoogleSignInOptions 생성
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder
                 (GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -182,4 +181,3 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
 }
-
