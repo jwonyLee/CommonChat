@@ -7,5 +7,10 @@
     <string name="joinus">회원가입</string>
     <string name="loginGoogle">구글플러스로 로그인</string>
     <string name="or">or</string>
+    <string name="returnJoin">회원이신가요?</string>
+
+    <string name="facebook_app_id">253473855197613</string>
+    <string name="fb_login_protocol_scheme">fb253473855197613</string>
+
 
 </resources>

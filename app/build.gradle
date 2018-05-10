@@ -45,5 +45,8 @@ dependencies {
     implementation 'com.android.support:animated-vector-drawable:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:support-compat:27.1.1'
+
+    // facebook
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 }
 apply plugin: 'com.google.gms.google-services'

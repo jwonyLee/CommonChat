@@ -18,6 +18,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -38,6 +44,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private FirebaseAuth mAuth;
@@ -50,6 +59,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private Button mLogin;
     private TextView mReturnJoin;
     private Button mGoogle;
+
+    private CallbackManager callbackManager;
+    private LoginButton mFacebook;
 
     String email;
     String password;
@@ -77,6 +89,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mLogin = (Button) findViewById(R.id.btnLogin);
         mReturnJoin = (TextView) findViewById(R.id.btnReturnJoin);
         mGoogle = (Button) findViewById(R.id.btnGoogle);
+        mFacebook = (LoginButton) findViewById(R.id.btnFacebook);
 
         // GoogleSignInOptions 생성
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder
@@ -114,6 +127,36 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
+        // 페이스북 로그인
+        callbackManager = CallbackManager.Factory.create();
+        mFacebook.setReadPermissions("email");
+
+        mFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        // App code
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // App code
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                    }
+                });
 
 
 
@@ -128,6 +171,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 
     }
+
+
 
     private void LoginWithEmail(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
@@ -150,6 +195,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // facebook login
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        // google login
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
@@ -169,6 +218,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
 
         }
+
 
     }
 

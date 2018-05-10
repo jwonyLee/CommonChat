@@ -3,15 +3,14 @@
     package="com.example.jiwon.commonchat">
 
     <!-- for real-time network communication -->
-    <!--(ContentProvider:어플리케이션 사이에서 data를 공유하는 통로 역할)-->
-    <!--ContentProvider를 통해 전화번호를 읽어오기 위해 permission얻기-->
+    <!-- (ContentProvider:어플리케이션 사이에서 data를 공유하는 통로 역할) -->
+    <!-- ContentProvider를 통해 전화번호를 읽어오기 위해 permission얻기 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
-
 
     <application
         android:allowBackup="true"
@@ -29,9 +28,31 @@
         </activity>
         <activity android:name=".ChatActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".JoinUsActivity"/>
+        <activity android:name=".JoinUsActivity" />
         <activity android:name=".UserActivity" />
+        <activity android:name=".SetProfileActivity"></activity>
+
+        <!-- facebook -->
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
 
     </application>
+
+
 
 </manifest>
