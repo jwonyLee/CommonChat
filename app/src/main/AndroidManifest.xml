@@ -3,12 +3,15 @@
     package="com.example.jiwon.commonchat">
 
     <!-- for real-time network communication -->
+    <!--(ContentProvider:어플리케이션 사이에서 data를 공유하는 통로 역할)-->
+    <!--ContentProvider를 통해 전화번호를 읽어오기 위해 permission얻기-->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
 
     <application
         android:allowBackup="true"
@@ -26,7 +29,9 @@
         </activity>
         <activity android:name=".ChatActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".JoinUsActivity"></activity>
+        <activity android:name=".JoinUsActivity"/>
+        <activity android:name=".UserActivity" />
+
     </application>
 
 </manifest>
