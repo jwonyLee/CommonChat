@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText_join_email"
+        android:id="@+id/editJoinEmail"
         android:layout_width="305dp"
         android:layout_height="45dp"
         android:layout_marginTop="40dp"
@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/editText_join_password"
+        android:id="@+id/editJoinPassword"
         android:layout_width="305dp"
         android:layout_height="45dp"
         android:layout_marginTop="10dp"
@@ -44,10 +44,10 @@
         android:paddingStart="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_join_password2" />
+        app:layout_constraintTop_toBottomOf="@+id/editJoinEmail" />
 
     <EditText
-        android:id="@+id/editText_join_password2"
+        android:id="@+id/editJoinPassword2"
         android:layout_width="305dp"
         android:layout_height="45dp"
         android:layout_marginTop="10dp"
@@ -57,10 +57,10 @@
         android:paddingStart="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_join_email" />
+        app:layout_constraintTop_toBottomOf="@+id/editJoinPassword" />
 
     <Button
-        android:id="@+id/mBtn_join"
+        android:id="@+id/btnJoin"
         android:layout_width="305dp"
         android:layout_height="45dp"
         android:layout_marginTop="10dp"
@@ -69,18 +69,18 @@
         android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_join_password" />
+        app:layout_constraintTop_toBottomOf="@+id/editJoinPassword2" />
 
 
     <TextView
-        android:id="@+id/return_login"
+        android:id="@+id/btnReturnJoin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="이미 회원인가요?"
+        android:text="@string/returnJoin"
         android:textColor="#888"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mBtn_join" />
+        app:layout_constraintTop_toBottomOf="@+id/btnJoin" />
 
 </android.support.constraint.ConstraintLayout>

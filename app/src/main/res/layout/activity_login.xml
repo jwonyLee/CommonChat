@@ -73,7 +73,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
     <Button
-        android:id="@+id/btnJoin"
+        android:id="@+id/btnReturnJoin"
         android:layout_width="305dp"
         android:layout_height="45dp"
         android:layout_marginTop="12dp"
@@ -97,6 +97,6 @@
         android:textColor="#333"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnJoin" />
+        app:layout_constraintTop_toBottomOf="@+id/btnReturnJoin" />
 
 </android.support.constraint.ConstraintLayout>

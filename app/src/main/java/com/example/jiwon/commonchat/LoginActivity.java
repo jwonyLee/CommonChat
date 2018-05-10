@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,25 +43,40 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 9001;
     private GoogleApiClient mGoogleApiClient;
+    private final String TAG = "LoginActivity";
 
-    private Button moveJoin;
+    private EditText mEmail;
+    private EditText mPassword;
+    private Button mLogin;
+    private TextView mReturnJoin;
+    private Button mGoogle;
+
+    String email;
+    String password;
 
     @Override
     public void onStart() {
         super.onStart();
-        // 활동을 초기화할 때 사용자가 현재 로그인되어 있는지 확인합니다.
+        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-
+        if(currentUser!=null){ // 만약 로그인이 되어있으면 다음 액티비티 실행
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        moveJoin = (Button) findViewById(R.id.mBtn_join);
+        // 초기화
+        mEmail = (EditText) findViewById(R.id.editEmail);
+        mPassword = (EditText) findViewById(R.id.editPassword);
+        mLogin = (Button) findViewById(R.id.btnLogin);
+        mReturnJoin = (TextView) findViewById(R.id.btnReturnJoin);
+        mGoogle = (Button) findViewById(R.id.btnGoogle);
 
         // GoogleSignInOptions 생성
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder
@@ -77,10 +93,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         // 로그인 작업의 onCreate 메소드에서 FirebaseAuth 개체의 공유 인스턴스를 가져옵니다.
         mAuth = FirebaseAuth.getInstance();
 
-
         // 로그인 버튼 이벤트 > signInIntent 호출
-        Button login_btn_google = (Button) findViewById(R.id.button_google);
-        login_btn_google.setOnClickListener(new View.OnClickListener() {
+        mGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.v("알림", "구글 LOGIN");
@@ -90,8 +104,48 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
+        email = mEmail.getText().toString();
+        password = mPassword.getText().toString();
+
+        mLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginWithEmail(email, password);
+            }
+        });
+
+
+
+
+        // 회원가입 페이지 이동 리스너 추가
+        mReturnJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, JoinUsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
+    private void LoginWithEmail(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithEmail:failed", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -185,4 +239,3 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
 }
-
