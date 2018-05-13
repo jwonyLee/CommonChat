@@ -48,6 +48,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -64,6 +66,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private CallbackManager callbackManager;
     private LoginButton mFacebook;
+
+    private FirebaseDatabase database;
+    private DatabaseReference Ref;
 
     String email;
     String password;
@@ -92,6 +97,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mReturnJoin = (TextView) findViewById(R.id.btnReturnJoin);
         mGoogle = (Button) findViewById(R.id.btnGoogle);
         mFacebook = (LoginButton) findViewById(R.id.btnFacebook);
+
+        database = FirebaseDatabase.getInstance();
+        Ref = database.getReference();
 
         // GoogleSignInOptions 생성
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder
@@ -214,6 +222,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             Toast.makeText(LoginActivity.this, "Authentication failed",
                                     Toast.LENGTH_SHORT).show();
                         }
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 });
     }
@@ -233,7 +244,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 Log.v("알림", "google sign 성공, FireBase Auth.");
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
 
             } else {

@@ -20,6 +20,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -36,6 +38,9 @@ public class JoinUsActivity extends AppCompatActivity {
     private EditText mPassword2;
     private Button mJoin;
     private TextView mReturnLogin;
+
+    private FirebaseDatabase database;
+    private DatabaseReference Ref;
 
     // 사용자의 로그인 상태 변화에 따라서 이벤트를 받을 리스너 객체
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -67,6 +72,10 @@ public class JoinUsActivity extends AppCompatActivity {
                 }
             }
         };
+
+        database = FirebaseDatabase.getInstance();
+        Ref = database.getReference();
+
 
         // 로그인 페이지 이동 리스너 추가
         mReturnLogin.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +136,8 @@ public class JoinUsActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(mContext, "회원가입 성공!",
                                     Toast.LENGTH_SHORT).show();
+
+                            Ref.child("users").child(mAuth.getCurrentUser().getEmail()).setValue(mAuth.getCurrentUser().getEmail());
                             Intent intent = new Intent(JoinUsActivity.this, LoginActivity.class);
                             startActivity(intent);
                             finish();
