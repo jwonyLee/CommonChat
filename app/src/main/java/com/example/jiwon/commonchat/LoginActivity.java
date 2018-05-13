@@ -44,6 +44,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import com.facebook.FacebookSdk;
@@ -153,7 +154,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         // App code
+
+                        Intent intent = new Intent(LoginActivity.this, SetProfileActivity.class);
+                        startActivity(intent);
                         handleFacebookAccessToken(loginResult.getAccessToken());
+
                     }
 
                     @Override
