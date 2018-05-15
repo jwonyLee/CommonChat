@@ -1,6 +1,7 @@
 package com.example.jiwon.commonchat;
 
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        checkPermission();
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
@@ -44,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         if(currentUser==null){ // 로그인 되어있지 않다면 로그인 액티비티로 이동
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
-            finish();
         }
         else {
             Intent intent = new Intent(MainActivity.this, UserActivity.class);
@@ -52,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
+    }
+
+    private void checkPermission() {
     }
 
 }

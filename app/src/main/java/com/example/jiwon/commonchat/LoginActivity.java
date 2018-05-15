@@ -71,18 +71,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private FirebaseDatabase database;
     private DatabaseReference Ref;
 
-    String email;
-    String password;
 
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser!=null){ // 만약 로그인이 되어있으면 다음 액티비티 실행
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
-            finish();
         }
     }
 
@@ -109,15 +105,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .requestEmail()
                 .build();
 
+        // Google 로그인을 위한 객체 생성
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        // 로그인 작업의 onCreate 메소드에서 FirebaseAuth 개체의 공유 인스턴스를 가져옵니다.
+        // 로그인 작업의 onCreate 메소드에서 FirebaseAuth 개체의 공유 인스턴스
         mAuth = FirebaseAuth.getInstance();
 
-        // 로그인 버튼 이벤트 > signInIntent 호출
+        // 구글 로그인 버튼 이벤트 > signInIntent 호출
         mGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,13 +125,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
-        email = mEmail.getText().toString();
-        password = mPassword.getText().toString();
-
+        // 이메일 로그인 버튼 이벤트
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginWithEmail(email, password);
+                LoginWithEmail(mEmail.getText().toString(), mPassword.getText().toString());
             }
         });
 
@@ -213,26 +208,30 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
 
+    // 이메일로 로그인 처리 메소드
     private void LoginWithEmail(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed",
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                        finish();
+
+                        // ...
                     }
                 });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -314,7 +313,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             } else {
                                 setResult(0);
                             }
-                            finish();
                         }
                     });
                 }
@@ -324,7 +322,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onConnectionSuspended(int i) {
                 Log.v("알림", "Google API Client Connection Suspended");
                 setResult(-1);
-                finish();
             }
         });
 

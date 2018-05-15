@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="@string/setProfile"
         android:textSize="30dp"
         android:gravity="center"
         android:layout_marginBottom="20dp"/>
@@ -19,35 +19,17 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/username"
+        android:id="@+id/setName"
         android:inputType="text"
         android:maxLines="1"
-        android:hint="enter username"
-        android:layout_marginBottom="10dp"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/password"
-        android:inputType="textPassword"
-        android:maxLines="1"
-        android:hint="enter password"
+        android:hint="@string/setName"
         android:layout_marginBottom="10dp"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:id="@+id/registerButton"
+        android:text="@string/start"
+        android:id="@+id/btnStart"
         android:layout_marginBottom="20dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Click here to login"
-        android:textSize="20dp"
-        android:gravity="center"
-        android:id="@+id/login"/>
-
 
 </LinearLayout>
