@@ -50,7 +50,6 @@ public class JoinUsActivity extends AppCompatActivity {
     // 사용자의 로그인 상태 변화에 따라서 이벤트를 받을 리스너 객체
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-    public static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,8 +144,7 @@ public class JoinUsActivity extends AppCompatActivity {
                             Toast.makeText(mContext, "회원가입 성공!",
                                     Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(JoinUsActivity.this, SetProfileActivity.class);
-                            startActivity(intent);
+                            startActivity(new Intent(JoinUsActivity.this, SetProfileActivity.class));
                         }
 
                     }

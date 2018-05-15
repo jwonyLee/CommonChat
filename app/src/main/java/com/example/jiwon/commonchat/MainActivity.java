@@ -1,6 +1,9 @@
 package com.example.jiwon.commonchat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,17 +28,31 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 public class MainActivity extends AppCompatActivity {
     private FirebaseUser user;
     private FirebaseAuth mAuth;
+    private android.content.pm.PackageManager PackageManager;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        checkPermission();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        checkLogin();
+
+    }
+
+    private void checkLogin() {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
@@ -52,12 +69,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, UserActivity.class);
             startActivity(intent);
         }
-
-
-
     }
 
-    private void checkPermission() {
-    }
 
 }

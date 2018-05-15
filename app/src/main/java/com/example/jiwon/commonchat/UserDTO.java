@@ -4,30 +4,40 @@
 package com.example.jiwon.commonchat;
 
 public class UserDTO {
-    private String email;
+    private String name;
     private String tel;
+    private String email;
 
     public UserDTO() {
     }
 
-    public UserDTO(String email, String tel) {
+    public UserDTO(String name, String email, String tel) {
+        this.name = name;
         this.email = email;
         this.tel = tel;
     }
 
-    public String getemail() {
-        return email;
+    public String getName() {
+        return name;
     }
 
-    public void setemail(String email) {
-        this.email = email;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String gettel() {
+    public String getTel() {
         return tel;
     }
 
-    public void settel(String tel) {
+    public void setTel(String tel) {
         this.tel = tel;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
