@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if(currentUser!=null){ // 만약 로그인이 되어있으면 다음 액티비티 실행
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
-            finish();
+            finish();//
         }
     }
 
