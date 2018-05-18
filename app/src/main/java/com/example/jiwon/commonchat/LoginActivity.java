@@ -78,15 +78,18 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     public static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 101;
 
-    @Override
+
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser!=null){ // 만약 로그인이 되어있으면 다음 액티비티 실행
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
+            finish();
         }
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,10 +129,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.v("알림", "구글 LOGIN");
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(signInIntent, RC_SIGN_IN);
-
+                finish();
             }
         });
 
@@ -152,27 +154,24 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             }
         });
 
+
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        // App code
 
                         Intent intent = new Intent(LoginActivity.this, SetProfileActivity.class);
                         startActivity(intent);
+                        finish();
                         handleFacebookAccessToken(loginResult.getAccessToken());
 
                     }
 
                     @Override
-                    public void onCancel() {
-                        // App code
-                    }
+                    public void onCancel() {  }
 
                     @Override
-                    public void onError(FacebookException exception) {
-                        // App code
-                    }
+                    public void onError(FacebookException exception) {  }
                 });
 
 
@@ -183,6 +182,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, JoinUsActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -200,14 +200,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
+                            // 로그인 성공하면, 로그인 화면에서 프로필 설정 화면으로 전환
                             FirebaseUser user = mAuth.getCurrentUser();
                             startActivity(new Intent(LoginActivity.this, SetProfileActivity.class));
+                            finish();
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            // 로그인 실패시, 로그인 실패 메세지 띄워줌
+                            Toast.makeText(LoginActivity.this, "페이스북 로그인 실패",
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -224,15 +223,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+                            // 로그인 성공하면 로그인 화면에서 프로필 설정 화면으로 전환
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, SetProfileActivity.class);
                             startActivity(intent);
+                            finish();
                         } else {
-                            // If sign in fails, display a message to the user.
+                            // 로그인 실패시, 실패 메세지 띄워짐
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, "로그인 실패",
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -242,27 +242,27 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
 
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // facebook login
+        //페이스북 로그인
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
-        // google login
+        //구글 로그인
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
 
-                // Google Sign In was successful, authenticate with Firebase
-                Log.v("알림", "google sign 성공, FireBase Auth.");
+                // 구글 로그인 성공시, 파이어베이스에 인증된 후 로그인화면에서 전환
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, SetProfileActivity.class);
                 startActivity(intent);
+                finish();
 
             } else {
-                // Google Sign In failed, update UI appropriately
-                Log.v("알림", result.isSuccess() + " Google Sign In failed. Because : " + result.getStatus().toString());
+                Toast.makeText(LoginActivity.this, "로그인 실패",
+                        Toast.LENGTH_SHORT).show();
+
                 // ...
 
             }
@@ -280,18 +280,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.v("알림", "ONCOMPLETE");
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
+                        //로그인 실패시, 유저 메세지 화면에 띄워짐. 만약 성공한다면
+                        //인증에 성공한 유저에게 메시지를 띄워주고 로그인 화면에서 프로필 화면으로 전환
                         if (!task.isSuccessful()) {
-                            Log.v("알림", "!task.isSuccessful()");
                             Toast.makeText(LoginActivity.this, "인증에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                         } else {
-                            Log.v("알림", "task.isSuccessful()");
                             Toast.makeText(LoginActivity.this, "FireBase 아이디 생성이 완료 되었습니다", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             startActivity(new Intent(LoginActivity.this, SetProfileActivity.class));
+                            finish();
                         }
                     }
 
@@ -337,28 +334,32 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-
+    // 주소록과 전화 권한 설정 여부 메소드
     private void checkPermission() {
-        // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(getApplicationContext(),
                 android.Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED||ContextCompat.checkSelfPermission(getApplicationContext(),
                 android.Manifest.permission.READ_PHONE_STATE)
                 != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
+            // 권한요청 거부로 인한 어플리케이션 종료
             if (ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this,
                     android.Manifest.permission.READ_CONTACTS) || ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this,
                     android.Manifest.permission.READ_PHONE_STATE)) {
+
+                finish();
+
+                // 다이어로그같은것을 띄워서 사용자에게 해당 권한이 필요한 이유에 대해 설명합니다
+
+                // 해당 설명이 끝난뒤 requestPermissions()함수를 호출하여 권한허가를 요청해야 합니다
+
+
 
                 // Show an expanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
 
             } else {
-
-                // No explanation needed, we can request the permission.
-
+                // 권한 요청 가능
                 ActivityCompat.requestPermissions(LoginActivity.this,
                         new String[]{android.Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE},
                         MY_PERMISSIONS_REQUEST_READ_CONTACTS);
@@ -366,6 +367,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
                 // result of the request.
+
+                // 필요한 권한과 요청 코드를 넣어서 권한허가요청에 대한 결과를 받아야 합니다
+
+
             }
         }
     }
@@ -376,13 +381,21 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
                 // If request is cancelled, the result arrays are empty.
+                // 권한 허가, 해당 권한을 사용해서 작업을 진행
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
 
+
+                    // 권한 거부, 유저가 해당권한을 거부했을때 어플리케이션 종료
                 } else {
+
+                    moveTaskToBack(true);       // 이코드가 있는 액티비티 종료
+                    finish();   // 현재 액티비티 종료
+                    android.os.Process.killProcess(android.os.Process.myPid()); // 현재 서비스 및 프로세스 종료
+
 
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.

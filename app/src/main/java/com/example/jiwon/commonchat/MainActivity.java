@@ -3,8 +3,10 @@ package com.example.jiwon.commonchat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private android.content.pm.PackageManager PackageManager;
 
-
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +64,11 @@ public class MainActivity extends AppCompatActivity {
 
         // FirebaseUser 인스턴스 생성
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser==null){ // 로그인 되어있지 않다면 로그인 액티비티로 이동
+        if (currentUser == null) { // 로그인 되어있지 않다면 로그인 액티비티로 이동
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         }
-        else {
-            Intent intent = new Intent(MainActivity.this, UserActivity.class);
-            startActivity(intent);
-        }
+
+
     }
-
-
 }

@@ -29,10 +29,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ChatActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".JoinUsActivity" />
+        <activity android:name=".LoginActivity" android:noHistory="true"/>
+        <activity android:name=".JoinUsActivity" android:noHistory="true"/>
         <activity android:name=".UserActivity" />
-        <activity android:name=".SetProfileActivity" />
+        <activity android:name=".SetProfileActivity" android:noHistory="true"/>
 
         <!-- facebook -->
         <meta-data

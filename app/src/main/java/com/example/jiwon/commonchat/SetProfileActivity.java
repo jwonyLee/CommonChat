@@ -38,7 +38,8 @@ public class SetProfileActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference Ref;
 
-    @Override
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_profile);
@@ -72,7 +73,7 @@ public class SetProfileActivity extends AppCompatActivity {
                 }
                 UserDTO user = new UserDTO(mSetName.getText().toString(),mAuth.getCurrentUser().getEmail(), mgr.getLine1Number());
                 // Toast.makeText(getApplicationContext(), mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
-                Ref.child("users").push().setValue(user);
+                Ref.child("users").child(mAuth.getCurrentUser().getEmail()).setValue(user);
                 startActivity(new Intent(SetProfileActivity.this, UserActivity.class));
             }
         });
