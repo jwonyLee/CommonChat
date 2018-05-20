@@ -72,8 +72,7 @@ public class SetProfileActivity extends AppCompatActivity {
                     return;
                 }
                 UserDTO user = new UserDTO(mSetName.getText().toString(),mAuth.getCurrentUser().getEmail(), mgr.getLine1Number());
-                // Toast.makeText(getApplicationContext(), mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
-                Ref.child("users").child(mAuth.getCurrentUser().getEmail()).setValue(user);
+                Ref.child("users").push().setValue(user);
                 startActivity(new Intent(SetProfileActivity.this, UserActivity.class));
             }
         });
