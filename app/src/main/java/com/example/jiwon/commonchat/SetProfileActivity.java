@@ -71,9 +71,15 @@ public class SetProfileActivity extends AppCompatActivity {
                     // for ActivityCompat#requestPermissions for more details.
                     return;
                 }
-                UserDTO user = new UserDTO(mSetName.getText().toString(),mAuth.getCurrentUser().getEmail(), mgr.getLine1Number());
+                String email = mAuth.getCurrentUser().getEmail();
+                String name = mSetName.getText().toString();
+                String tel = mgr.getLine1Number().toString();
+                String state = "";
+
+                UserDTO user = new UserDTO(email, state, name, tel);
                 Ref.child("users").push().setValue(user);
-                startActivity(new Intent(SetProfileActivity.this, UserActivity.class));
+                startActivity(new Intent(SetProfileActivity.this, MainActivity.class));
+                finish();
             }
         });
     }

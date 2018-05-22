@@ -7,14 +7,24 @@ public class UserDTO {
     private String name;
     private String tel;
     private String email;
+    private String state;
 
     public UserDTO() {
     }
 
-    public UserDTO(String name, String email, String tel) {
+    public UserDTO(String email, String state, String name, String tel) {
         this.name = name;
         this.email = email;
         this.tel = tel;
+        this.state = state;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getName() {

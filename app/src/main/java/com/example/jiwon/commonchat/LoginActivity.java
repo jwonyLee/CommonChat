@@ -1,20 +1,15 @@
 package com.example.jiwon.commonchat;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,12 +25,10 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -47,13 +40,6 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
@@ -71,9 +57,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     private CallbackManager callbackManager;
     private LoginButton mFacebook;
-
-    private FirebaseDatabase database;
-    private DatabaseReference Ref;
 
     public static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     public static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 101;
@@ -106,9 +89,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mGoogle = (Button) findViewById(R.id.btnGoogle);
         mFacebook = (LoginButton) findViewById(R.id.btnFacebook);
 
-        database = FirebaseDatabase.getInstance();
-        Ref = database.getReference();
-
         // GoogleSignInOptions 생성
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder
                 (GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -139,7 +119,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 LoginWithEmail(mEmail.getText().toString(), mPassword.getText().toString());
+
             }
         });
 
@@ -218,7 +200,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     // 이메일로 로그인 처리 메소드
     private void LoginWithEmail(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
+       mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -239,6 +221,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         // ...
                     }
                 });
+
     }
 
 
