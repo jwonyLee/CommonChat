@@ -1,43 +1,37 @@
 package com.example.jiwon.commonchat;
 
 public class FriendDTO {
-    private int icon;
-    private String name;
-    private String stateMessage;
+    private int profileImageView;
+    private String nameTextView;
+    private String stateTextView;
 
-    public int getIcon() {
-        return icon;
+    public FriendDTO(int profileImageView, String nameTextView) {
+        this.profileImageView = profileImageView;
+        this.nameTextView = nameTextView;
+        this.stateTextView = "";
     }
 
-    public String getName() {
-        return name;
+    public int getProfileImageView() {
+        return profileImageView;
     }
 
-    public String getStateMessage() {
-        return stateMessage;
+    public void setProfileImageView(int profileImageView) {
+        this.profileImageView = profileImageView;
     }
 
-    public FriendDTO(int icon) {
-        this.icon = icon;
+    public String getNameTextView() {
+        return nameTextView;
     }
 
-    public FriendDTO(int icon, String name) {
-        this.icon = icon;
-        this.name = name;
+    public void setNameTextView(String nameTextView) {
+        this.nameTextView = nameTextView;
     }
 
-    public FriendDTO(int icon, String name, String stateMessage) {
-        this.icon = icon;
-        this.name = name;
-        this.stateMessage = stateMessage;
+    public String getStateTextView() {
+        return stateTextView;
     }
 
-    @Override
-    public String toString() {
-        return "FriendListViewitem{" +
-                "icon=" + icon +
-                ", name='" + name + '\'' +
-                ", stateMessage='" + stateMessage + '\'' +
-                '}';
+    public void setStateTextView(String stateTextView) {
+        this.stateTextView = stateTextView;
     }
 }

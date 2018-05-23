@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
         checkLogin();
 
-
-
         TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), 3);
         viewPager = (ViewPager) findViewById(R.id.pager);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
