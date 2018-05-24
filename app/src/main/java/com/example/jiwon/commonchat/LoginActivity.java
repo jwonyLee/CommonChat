@@ -60,6 +60,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     public static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 100;
     public static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 101;
+    public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 102;
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 103;
+    public static final int MY_PERMISSIONS_REQUEST_CAMERA = 104;
 
 
     public void onStart() {
@@ -317,17 +320,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    // 주소록과 전화 권한 설정 여부 메소드
+    // 권한 설정 여부 메소드
     private void checkPermission() {
-        if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                android.Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED||ContextCompat.checkSelfPermission(getApplicationContext(),
-                android.Manifest.permission.READ_PHONE_STATE)
-                != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED
+                ||ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.READ_PHONE_STATE)!= PackageManager.PERMISSION_GRANTED
+                ||ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED
+                ||ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED
+                ||ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
             // 권한요청 거부로 인한 어플리케이션 종료
-            if (ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this,
-                    android.Manifest.permission.READ_CONTACTS) || ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this,
-                    android.Manifest.permission.READ_PHONE_STATE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, android.Manifest.permission.READ_CONTACTS)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, android.Manifest.permission.READ_PHONE_STATE)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, android.Manifest.permission.CAMERA)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
                 finish();
 
