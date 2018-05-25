@@ -1,4 +1,3 @@
-
 package com.example.jiwon.commonchat;
 //[참조]https://www.androidtutorialpoint.com/firebase/real-time-android-chat-application-using-firebase-tutorial/
 
