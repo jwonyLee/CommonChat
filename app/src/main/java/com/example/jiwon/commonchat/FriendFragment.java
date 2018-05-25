@@ -3,8 +3,10 @@ package com.example.jiwon.commonchat;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -46,6 +48,7 @@ public class FriendFragment extends Fragment {
     private FriendAdapter adapter;
     private ArrayList<FriendDTO> list_itemArrayList;
 
+    Cursor cursor;      // 데이터를 순차적으로 액세스할 때 사용
 
     public FriendFragment() {
     }
@@ -71,9 +74,46 @@ public class FriendFragment extends Fragment {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     UserDTO userDTO = dataSnapshot.getValue(UserDTO.class);
-                    list_itemArrayList.add(new FriendDTO(R.mipmap.ic_launcher, userDTO.getName()));
-                    adapter = new FriendAdapter(getActivity(), list_itemArrayList);
-                    listView.setAdapter(adapter);
+                    // 데이터 접근을 위한 메소드( uri:원하는 데이터를 가져오기 위해 정해진 주소, projecion:null일 경우, 모든 컬럼 목록, selection:조건절, selectionArgs:selectinon에 ?로 표시한 곳에 들어갈 데이터, sortOrder:정렬을 위한 구문(order by) )
+                    cursor = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+
+                    int count = 0;
+                    int end = cursor.getCount();
+                    String[] name = new String[end];
+                    String[] phoneNumber = new String[end];
+
+                    if(cursor.moveToFirst()) {
+
+                        // 컬럼명으로 컬럼 인덱스 찾기
+                        int idIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID);
+                        int nameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                        int phoneNumberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+
+                        do {
+
+                            // 요소값 얻기
+                            int id = cursor.getInt(idIndex);
+                            name[count] = cursor.getString(nameIndex);
+                            phoneNumber[count] = cursor.getString(phoneNumberIndex);
+
+                            // 얻은 전화번호를 전화번호 저장 형식에 맞추어 가공
+                            String death = phoneNumber[count].replaceAll("\\D","");
+                            if (!death.startsWith("+82") )
+                                death = death.replaceFirst("010","+8210");
+                            if (death.startsWith("82"))
+                                death = death.replaceFirst("82", "+82");
+
+                            // 어플 회원이면서 내 연락처의 저장되어있으면 친구 목록에 추가
+                            if (userDTO.getTel().equals(death)) {
+                                list_itemArrayList.add(new FriendDTO(R.mipmap.ic_launcher, userDTO.getName()));
+                                adapter = new FriendAdapter(getActivity(), list_itemArrayList);
+                                listView.setAdapter(adapter);
+                            }
+
+                            count++;
+
+                        } while(cursor.moveToNext() || count > end);
+                    }
                 }
 
                 @Override
@@ -98,8 +138,20 @@ public class FriendFragment extends Fragment {
             });
         }
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            ArrayList<String> al = new ArrayList<>();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                startActivity(new Intent(getActivity(), ChatActivity.class));
+            }
+        });
+
+
         return rootView;
     }
+
+
 }
 
 

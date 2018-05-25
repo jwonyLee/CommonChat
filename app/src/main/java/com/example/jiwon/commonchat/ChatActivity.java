@@ -1,15 +1,16 @@
+
 package com.example.jiwon.commonchat;
 //[참조]https://www.androidtutorialpoint.com/firebase/real-time-android-chat-application-using-firebase-tutorial/
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -17,6 +18,10 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,71 +29,146 @@ import java.util.Map;
 //채팅화면
 public class ChatActivity extends AppCompatActivity {
 
-    LinearLayout layout;
-    RelativeLayout layout_2;
-    ImageView sendButton;
-    EditText messageArea;
     ScrollView scrollView;
-    Firebase reference1, reference2;    // 데이터베이스 참조를 위한 선언
+    LinearLayout layout;
+    ImageView sendButton;	// messagearea.xml
+    EditText messageArea;	// messagearea.xml
+    Firebase ref1, ref2;    // 데이터베이스를 참조하기 위한 선언
+    UserDTO uDTO;
+    FriendDTO fDTO;
+
+    private FirebaseAuth mAuth;
+
+
+    String u = "you";
+    String f = "f";
 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        layout = (LinearLayout) findViewById(R.id.layout1);     // activity_chat의 LinearLayout
-        layout_2 = (RelativeLayout)findViewById(R.id.layout2);  // activity_chat의 RelativeLayout
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+////        DatabaseReference dataRef = reference.child("users").child("name");
+
+        mAuth = FirebaseAuth.getInstance();
+
+        layout = (LinearLayout) findViewById(R.id.layout);     // activity_chat의 LinearLayout
         sendButton = (ImageView)findViewById(R.id.sendButton);  // activity_chat의 LinearLayout
         messageArea = (EditText)findViewById(R.id.messageArea); // message_area의 EditText
         scrollView = (ScrollView)findViewById(R.id.scrollView); // activity_chat의 scrollView
 
-//        Firebase.setAndroidContext(this);
-        // 파이어베이스의 데이터베이스가 위치한 url에서 UserDetails클래스를 통해 username과 chatWith 값을 얻어옴.
-        reference1 = new Firebase("https://commonchat-58d3d.firebaseio.com/messages/" + UserDetails.username + "_" + UserDetails.chatWith);
-        reference2 = new Firebase("https://commonchat-58d3d.firebaseio.com/messages/" + UserDetails.chatWith + "_" + UserDetails.username);
 
-        // sendButton을 눌렀을 때에 입력된 문자를 messageArea에 setText해줌
-        sendButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                String messageText = messageArea.getText().toString();
-                // 메세지 내용이 존재할 경우
-                if(!messageText.equals("")){
-                    //유저이름과 메세지를 넣어줄 Map 정의
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("message", messageText);    //메세지 map에 넣기
-                    map.put("user", UserDetails.username);  // 유저이름 map에 넣기
-                    reference1.push().setValue(map);    //데이터베이스에 값넣어주기
-                    reference2.push().setValue(map);    //데이터베이스에 값넣어주기
-                    messageArea.setText("");
+        if (mAuth != null) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
+            reference.addChildEventListener(new com.google.firebase.database.ChildEventListener() {
+                @Override
+                public void onChildAdded(com.google.firebase.database.DataSnapshot dataSnapshot, String s) {
+                    UserDTO ooDTO = dataSnapshot.getValue(UserDTO.class);
+                    Log.d("devdev","uDTO get Name"+ooDTO.getName());
                 }
-            }
-        });
 
-        // 데이터 읽는 작업
-        reference1.addChildEventListener(new ChildEventListener() {
-            // 항목을 추가하기      / DataSnapshot:특정 데이터베이스 참조에 있던 데이터를 촬영한 사진과 비슷
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map map = dataSnapshot.getValue(Map.class);
-                String message = map.get("message").toString(); //메세지 정보 얻어와, message에 넣기
-                String userName = map.get("user").toString();   //user이름 가져와, userName에 넣기
+                @Override
+                public void onChildChanged(com.google.firebase.database.DataSnapshot dataSnapshot, String s) {
 
-                //userName이 나의 username과 일치한다면 오른쪽정렬 상태로 메세지 보내짐.
-                if(userName.equals(UserDetails.username)){
-                    addMessageBox("You:-\n" + message, 1);
                 }
-                //userName이 나의 username과 일치하지않는다면 왼쪽정렬 상태로 메세지 보내짐.
-                else{
-                    addMessageBox(UserDetails.chatWith + ":-\n" + message, 2);
+
+                @Override
+                public void onChildRemoved(com.google.firebase.database.DataSnapshot dataSnapshot) {
+
                 }
-            }
 
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
-            public void onChildRemoved(DataSnapshot dataSnapshot) { }
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
-            public void onCancelled(FirebaseError firebaseError) { }
+                @Override
+                public void onChildMoved(com.google.firebase.database.DataSnapshot dataSnapshot, String s) {
 
-        });
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            FirebaseDatabase.getInstance().getReference().addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
+
+                public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
+                    uDTO = dataSnapshot.getValue(UserDTO.class);
+                    fDTO = dataSnapshot.getValue(FriendDTO.class);
+
+
+
+
+//                    ref1 = new Firebase("https://commonchat-58d3d.firebaseio.com/messages/" + uDTO.getName() + "_" + fDTO.getNameTextView());
+//                    ref2 = new Firebase("https://commonchat-58d3d.firebaseio.com/messages/" + fDTO.getNameTextView() + "_" + uDTO.getName());
+
+
+                    // sendButton을 눌렀을 때에 입력된 문자를 messageArea에 setText해줌
+                    sendButton.setOnClickListener(new View.OnClickListener() {
+
+                        public void onClick(View v) {
+                            String messageText = messageArea.getText().toString();
+                            // 메세지 내용이 존재할 경우
+                            if (!messageText.equals("")) {
+                                //유저이름과 메세지를 넣어줄 Map 정의
+                                Map<String, String> map = new HashMap<String, String>();
+                                map.put("message", messageText);    //메세지 map에 넣기
+                                map.put("user", uDTO.getName());  // 유저이름 map에 넣기
+                                ref1.push().setValue(map);   //데이터베이스에 값넣어주기
+                                ref2.push().setValue(map);
+                                messageArea.setText("");
+                            }
+                        }
+                    });
+
+
+                    // 데이터 읽는 작업
+                    ref1.addChildEventListener(new ChildEventListener() {
+                        // 항목을 추가하기      / DataSnapshot:특정 데이터베이스 참조에 있던 데이터를 촬영한 사진과 비슷
+                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                            Map map = dataSnapshot.getValue(Map.class);
+                            String message = map.get("message").toString(); //메세지 정보 얻어와, message에 넣기
+                            String userName = map.get("user").toString();   //user이름 가져와, userName에 넣기
+
+                            //userName이 나의 username과 일치한다면 오른쪽정렬 상태로 메세지 보내짐.
+                            if (userName.equals(u)) {
+                                addMessageBox("You:-\n" + message, 1);
+                            }
+                            //userName이 나의 username과 일치하지않는다면 왼쪽정렬 상태로 메세지 보내짐.
+                            else {
+                                addMessageBox(fDTO.getNameTextView() + ":-\n" + message, 2);
+                            }
+                        }
+
+                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                        }
+
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        }
+
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                        }
+
+                        public void onCancelled(FirebaseError firebaseError) {
+                        }
+
+                    });
+
+
+
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+        Firebase.setAndroidContext(this);
+
+
+
 
     }
 
@@ -104,11 +184,11 @@ public class ChatActivity extends AppCompatActivity {
 
         if(type == 1) {   //LinearLayout에 해당하는 속성은 오른쪽정렬
             lp2.gravity = Gravity.RIGHT;
-            textView.setBackgroundResource(R.drawable.rounded_corner1);
+            textView.setBackgroundResource(R.drawable.bubble_in);
         }
         else{   //LinearLayout에 해당하는 속성은 왼쪽정렬
             lp2.gravity = Gravity.LEFT;
-            textView.setBackgroundResource(R.drawable.rounded_corner2);
+            textView.setBackgroundResource(R.drawable.bubble_out);
         }
 
         textView.setLayoutParams(lp2);      // textView(메세지)에 새로운 파라미터 적용
