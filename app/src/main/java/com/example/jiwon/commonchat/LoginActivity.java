@@ -209,7 +209,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             // 로그인 성공하면 로그인 화면에서 프로필 설정 화면으로 전환
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(LoginActivity.this, SetProfileActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
@@ -347,7 +347,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             } else {
                 // 권한 요청 가능
                 ActivityCompat.requestPermissions(LoginActivity.this,
-                        new String[]{android.Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE},
+                        new String[]{android.Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA,Manifest.permission.GET_ACCOUNTS},
                         MY_PERMISSIONS_REQUEST_READ_CONTACTS);
 
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an

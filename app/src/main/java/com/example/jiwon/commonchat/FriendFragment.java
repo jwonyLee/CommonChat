@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -21,7 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 public class FriendFragment extends Fragment {
 
@@ -33,6 +34,8 @@ public class FriendFragment extends Fragment {
 
     Cursor cursor;      // 데이터를 순차적으로 액세스할 때 사용
 
+    String myName;
+
     public FriendFragment() {
     }
 
@@ -41,6 +44,8 @@ public class FriendFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+        if (mAuth != null && mAuth.getCurrentUser() != null && mAuth.getCurrentUser().getEmail() != null)
+            myName = mAuth.getCurrentUser().getEmail();
     }
 
 
@@ -65,7 +70,7 @@ public class FriendFragment extends Fragment {
                     String[] name = new String[end];
                     String[] phoneNumber = new String[end];
 
-                    if(cursor.moveToFirst()) {
+                    if (cursor.moveToFirst()) {
 
                         // 컬럼명으로 컬럼 인덱스 찾기
                         int idIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID);
@@ -80,9 +85,9 @@ public class FriendFragment extends Fragment {
                             phoneNumber[count] = cursor.getString(phoneNumberIndex);
 
                             // 얻은 전화번호를 전화번호 저장 형식에 맞추어 가공
-                            String death = phoneNumber[count].replaceAll("\\D","");
-                            if (!death.startsWith("+82") )
-                                death = death.replaceFirst("010","+8210");
+                            String death = phoneNumber[count].replaceAll("\\D", "");
+                            if (!death.startsWith("+82"))
+                                death = death.replaceFirst("010", "+8210");
                             if (death.startsWith("82"))
                                 death = death.replaceFirst("82", "+82");
 
@@ -93,9 +98,13 @@ public class FriendFragment extends Fragment {
                                 listView.setAdapter(adapter);
                             }
 
+                            if (userDTO.getEmail().equals(myName)) {
+                                myName = userDTO.getName();
+                            }
+
                             count++;
 
-                        } while(cursor.moveToNext() || count > end);
+                        } while (cursor.moveToNext() || count > end);
                     }
                 }
 
@@ -124,17 +133,21 @@ public class FriendFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             ArrayList<String> al = new ArrayList<>();
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                startActivity(new Intent(getActivity(), ChatActivity.class));
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView item = (TextView) view.findViewById(R.id.profileTextView);
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                intent.putExtra("other", item.getText().toString());
+                intent.putExtra("myName", myName);
+                startActivity(intent);
             }
         });
+
 
         return rootView;
     }
 
 
 }
-
 
 
