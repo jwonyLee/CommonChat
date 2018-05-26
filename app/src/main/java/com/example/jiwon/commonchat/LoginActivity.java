@@ -1,7 +1,6 @@
 package com.example.jiwon.commonchat;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -40,7 +39,6 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.FirebaseDatabase;
 
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -349,7 +347,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             } else {
                 // 권한 요청 가능
                 ActivityCompat.requestPermissions(LoginActivity.this,
-                        new String[]{android.Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE},
+                        new String[]{android.Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA,Manifest.permission.GET_ACCOUNTS},
                         MY_PERMISSIONS_REQUEST_READ_CONTACTS);
 
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an

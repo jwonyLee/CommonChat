@@ -1,5 +1,6 @@
 package com.example.jiwon.commonchat;
 
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -40,6 +41,7 @@ public class SetImageProfileActivity extends AppCompatActivity {
     final int GET_PICTURE_URI=100;
 
     Uri filePath;
+
     private ImageButton mImage;
     private Button mSetup;
 
@@ -187,8 +189,6 @@ public class SetImageProfileActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "파일을 먼저 선택하세요.", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
 
 }

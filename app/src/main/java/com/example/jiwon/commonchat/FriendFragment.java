@@ -1,10 +1,7 @@
 package com.example.jiwon.commonchat;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
@@ -14,18 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -33,12 +21,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Iterator;
-
+import java.util.List;
 
 public class FriendFragment extends Fragment {
 
@@ -49,6 +33,7 @@ public class FriendFragment extends Fragment {
     private ArrayList<FriendDTO> list_itemArrayList;
 
     Cursor cursor;      // 데이터를 순차적으로 액세스할 때 사용
+    String myName;
 
     public FriendFragment() {
     }
@@ -58,6 +43,8 @@ public class FriendFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+        if (mAuth != null && mAuth.getCurrentUser() != null && mAuth.getCurrentUser().getEmail() != null)
+            myName = mAuth.getCurrentUser().getEmail();
     }
 
 
@@ -82,7 +69,7 @@ public class FriendFragment extends Fragment {
                     String[] name = new String[end];
                     String[] phoneNumber = new String[end];
 
-                    if(cursor.moveToFirst()) {
+                    if (cursor.moveToFirst()) {
 
                         // 컬럼명으로 컬럼 인덱스 찾기
                         int idIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID);
@@ -97,9 +84,10 @@ public class FriendFragment extends Fragment {
                             phoneNumber[count] = cursor.getString(phoneNumberIndex);
 
                             // 얻은 전화번호를 전화번호 저장 형식에 맞추어 가공
-                            String death = phoneNumber[count].replaceAll("\\D","");
-                            if (!death.startsWith("+82") )
-                                death = death.replaceFirst("010","+8210");
+                            String death = phoneNumber[count].replaceAll("\\D", "");
+                            if (!death.startsWith("+82"))
+                                death = death.replaceFirst("010", "+8210");
+
                             if (death.startsWith("82"))
                                 death = death.replaceFirst("82", "+82");
 
@@ -110,9 +98,14 @@ public class FriendFragment extends Fragment {
                                 listView.setAdapter(adapter);
                             }
 
+                            if (userDTO.getEmail().equals(myName)) {
+                                myName = userDTO.getName();
+                            }
+
                             count++;
 
                         } while(cursor.moveToNext() || count > end);
+
                     }
                 }
 
@@ -141,9 +134,14 @@ public class FriendFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             ArrayList<String> al = new ArrayList<>();
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                startActivity(new Intent(getActivity(), ChatActivity.class));
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView item = (TextView) view.findViewById(R.id.profileTextView);
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                intent.putExtra("other", item.getText().toString());
+                intent.putExtra("myName", myName);
+                startActivity(intent);
+
             }
         });
 
@@ -153,6 +151,5 @@ public class FriendFragment extends Fragment {
 
 
 }
-
 
 
