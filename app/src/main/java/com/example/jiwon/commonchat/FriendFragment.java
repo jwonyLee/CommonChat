@@ -33,7 +33,6 @@ public class FriendFragment extends Fragment {
     private ArrayList<FriendDTO> list_itemArrayList;
 
     Cursor cursor;      // 데이터를 순차적으로 액세스할 때 사용
-
     String myName;
 
     public FriendFragment() {
@@ -88,6 +87,7 @@ public class FriendFragment extends Fragment {
                             String death = phoneNumber[count].replaceAll("\\D", "");
                             if (!death.startsWith("+82"))
                                 death = death.replaceFirst("010", "+8210");
+
                             if (death.startsWith("82"))
                                 death = death.replaceFirst("82", "+82");
 
@@ -104,7 +104,8 @@ public class FriendFragment extends Fragment {
 
                             count++;
 
-                        } while (cursor.moveToNext() || count > end);
+                        } while(cursor.moveToNext() || count > end);
+
                     }
                 }
 
@@ -140,6 +141,7 @@ public class FriendFragment extends Fragment {
                 intent.putExtra("other", item.getText().toString());
                 intent.putExtra("myName", myName);
                 startActivity(intent);
+
             }
         });
 

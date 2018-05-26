@@ -52,6 +52,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     Map<String, String> map = new HashMap<String, String>();
     String messageText;
 
+
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -86,10 +87,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         addMessageBox(messageDTO.getMessage(),1);
                     else
                         addMessageBox(messageDTO.getMessage(), 2);
+
                 }
 
                 @Override
                 public void onChildChanged(com.google.firebase.database.DataSnapshot dataSnapshot, String s) {
+
 
                 }
 
@@ -108,6 +111,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
             });
+
         }
 
         // sendButton을 눌렀을 때에 입력된 문자를 messageArea에 setText해줌
@@ -173,6 +177,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         if (type == 1) {   //LinearLayout에 해당하는 속성은 오른쪽정렬
             lp2.gravity = Gravity.RIGHT;
+
         } else {   //LinearLayout에 해당하는 속성은 왼쪽정렬
             lp2.gravity = Gravity.LEFT;
         }

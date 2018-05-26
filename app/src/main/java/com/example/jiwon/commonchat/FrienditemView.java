@@ -38,4 +38,5 @@ public class FrienditemView extends LinearLayout {
     public void setState(String state) {
         stateTextView.setText(state);
     }
+
 }
