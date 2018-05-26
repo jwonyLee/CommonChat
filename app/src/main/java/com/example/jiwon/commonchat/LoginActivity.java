@@ -211,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             // 로그인 성공하면 로그인 화면에서 프로필 설정 화면으로 전환
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(LoginActivity.this, SetProfileActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         } else {

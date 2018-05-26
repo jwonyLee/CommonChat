@@ -183,11 +183,9 @@ public class ChatActivity extends AppCompatActivity {
 
         if(type == 1) {   //LinearLayout에 해당하는 속성은 오른쪽정렬
             lp2.gravity = Gravity.RIGHT;
-            textView.setBackgroundResource(R.drawable.bubble_in);
         }
         else{   //LinearLayout에 해당하는 속성은 왼쪽정렬
             lp2.gravity = Gravity.LEFT;
-            textView.setBackgroundResource(R.drawable.bubble_out);
         }
 
         textView.setLayoutParams(lp2);      // textView(메세지)에 새로운 파라미터 적용
