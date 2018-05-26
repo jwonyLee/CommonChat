@@ -16,18 +16,13 @@
         android:layout_weight="20"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView">
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/layout2"
+        <!--최근 채팅순으로 쌓이도록-->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <!--최근 채팅순으로 쌓이도록-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/layout1">
-            </LinearLayout>
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/layout">
+        </LinearLayout>
     </ScrollView>
 
     <!--채팅입력영역, 같은 형식의 Layout이 반복될 경우, 'include'속성을 이용-->

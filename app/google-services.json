@@ -15,6 +15,26 @@
       },
       "oauth_client": [
         {
+          "client_id": "551050429749-qtt7l2eb76nfoho8e4ti46p78k3s2l4r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jiwon.commonchat",
+            "certificate_hash": "c513df43a8f83cee1326838f94ba530ab2fc8c8d"
+          }
+        },
+        {
+          "client_id": "551050429749-iljrf4n9ap76qe7rlpvaiou12fopp7to.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jiwon.commonchat",
+            "certificate_hash": "11d24c53551cef7f31e824061b5996ef15159b6d"
+          }
+        },
+        {
+          "client_id": "551050429749-mn1ltmbael4jajgfrjjlett4ds603fbh.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "551050429749-9hlod56ttflklm2npkm93ap0nmbqg84n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -40,7 +60,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "551050429749-ef8ill8v262ovjuedq6knenu307vmrc8.apps.googleusercontent.com",
+              "client_id": "551050429749-mn1ltmbael4jajgfrjjlett4ds603fbh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

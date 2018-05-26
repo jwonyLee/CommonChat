@@ -3,10 +3,15 @@ package com.example.jiwon.commonchat;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +25,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -37,8 +44,13 @@ public class JoinUsActivity extends AppCompatActivity {
     private Button mJoin;
     private TextView mReturnLogin;
 
+    private FirebaseDatabase database;
+    private DatabaseReference Ref;
+
     // 사용자의 로그인 상태 변화에 따라서 이벤트를 받을 리스너 객체
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +62,7 @@ public class JoinUsActivity extends AppCompatActivity {
         mPassword2 = (EditText) findViewById(R.id.editJoinPassword2);
         mJoin = (Button) findViewById(R.id.btnJoin);
         mReturnLogin = (TextView) findViewById(R.id.btnReturnJoin);
+
 
         // 초기화
         mContext = this;
@@ -67,6 +80,10 @@ public class JoinUsActivity extends AppCompatActivity {
                 }
             }
         };
+
+        database = FirebaseDatabase.getInstance();
+        Ref = database.getReference();
+
 
         // 로그인 페이지 이동 리스너 추가
         mReturnLogin.setOnClickListener(new View.OnClickListener() {
@@ -89,15 +106,15 @@ public class JoinUsActivity extends AppCompatActivity {
 
     }
 
-    private void createAccount(String email, String password, String password2) {
-        if(!isValidEmail(email)){
+    private void createAccount(final String email, final String password, String password2) {
+        if (!isValidEmail(email)) {
             Log.e(TAG, "createAccount: email is not valid ");
             Toast.makeText(JoinUsActivity.this, "이메일이 유효하지 않습니다.",
                     Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (isValidPassword(password)){
+        if (isValidPassword(password)) {
             Log.e(TAG, "createAccount: password is not valid ");
             Toast.makeText(mContext, "비밀번호가 유효하지 않습니다.",
                     Toast.LENGTH_SHORT).show();
@@ -127,9 +144,8 @@ public class JoinUsActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(mContext, "회원가입 성공!",
                                     Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(JoinUsActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                            finish();
+
+                            startActivity(new Intent(JoinUsActivity.this, SetProfileActivity.class));
                         }
 
                     }

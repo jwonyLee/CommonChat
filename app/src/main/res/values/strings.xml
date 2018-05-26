@@ -12,5 +12,15 @@
     <string name="facebook_app_id">253473855197613</string>
     <string name="fb_login_protocol_scheme">fb253473855197613</string>
 
+    <string name="setProfile">프로필 설정</string>
+    <string name="setName">이름을 입력해주세요.</string>
+    <string name="start">시작하기</string>
+
+    <string name="tabFriend">친구</string>
+    <string name="tabChat">채팅</string>
+    <string name="tabSetting">설정</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
