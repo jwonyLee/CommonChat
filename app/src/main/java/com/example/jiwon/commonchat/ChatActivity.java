@@ -87,6 +87,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         roomother = intent.getExtras().getString("other");
         myname = intent.getExtras().getString("myName");
         roomname = myname+"_"+roomother;
+        Log.d("getNickname", roomname);
 
         ref = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();

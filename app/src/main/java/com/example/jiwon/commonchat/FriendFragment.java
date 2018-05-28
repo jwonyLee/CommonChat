@@ -101,13 +101,14 @@ public class FriendFragment extends Fragment {
                                         death = death.replaceFirst("82", "+82");
 
                                     // 어플 회원이면서 내 연락처의 저장되어있으면 친구 목록에 추가
-                                    if (userDTO.getTel() == death) {
+                                    if (userDTO.getTel().equals(death)) {
                                         list_itemArrayList.add(new FriendDTO(R.mipmap.ic_launcher, userDTO.getName()));
                                         adapter = new FriendAdapter(getActivity(), list_itemArrayList);
                                         listView.setAdapter(adapter);
+
                                     }
 
-                                    if (userDTO.getEmail() == myName) {
+                                    if (userDTO.getEmail().equals(myName)) {
                                         myName = userDTO.getName();
                                     }
 
@@ -169,5 +170,4 @@ public class FriendFragment extends Fragment {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
     }
-
 }
