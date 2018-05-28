@@ -9,6 +9,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -51,6 +53,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.jiwon.commonchat.R.drawable.gradient_edittext;
 
 //채팅화면
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
@@ -225,6 +229,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         } else {   //LinearLayout에 해당하는 속성은 왼쪽정렬
             lp2.gravity = Gravity.LEFT;
         }
+
+        // 폰트 설정
+        Typeface typeface = getResources().getFont(R.font.font_bmjua);
+        textView.setTypeface(typeface);
+        textView.setTextSize(24);
+        textView.setPadding(10,10,10,10);
 
         textView.setLayoutParams(lp2);      // textView(메세지)에 새로운 파라미터 적용
         layout.addView(textView);           // LinearLayout에 textView 추가 시키기(주고받는 메시지 영역에 추가)
