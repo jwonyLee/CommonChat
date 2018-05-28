@@ -1,5 +1,6 @@
 package com.example.jiwon.commonchat;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -61,8 +62,6 @@ public class SetProfileActivity extends AppCompatActivity {
                 String email = mAuth.getCurrentUser().getEmail();
                 String name = mSetName.getText().toString();
                 String tel = mgr.getLine1Number().toString();
-                if (tel.startsWith("010"))
-                    tel = tel.replaceFirst("010", "+8210");
                 String state = "";
 
                 UserDTO user = new UserDTO(email, state, name, tel);

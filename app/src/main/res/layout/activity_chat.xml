@@ -33,30 +33,31 @@
         android:gravity="bottom"
         android:layout_marginTop="5dp"/>
 
+    <!--그림메모, 계산기 메뉴-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:id="@+id/selectMenu"
         android:orientation="horizontal"
-        >
+        android:visibility="gone">
 
-        <!--android:visibility="gone"-->
         <ImageView
             android:id="@+id/calculatorImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/calculator"
-            android:layout_margin="18dp"
+            android:layout_margin="13dp"
             android:onClick="onCal"/>
         <ImageView
             android:id="@+id/memoImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/memo"
-            android:layout_margin="18dp"
+            android:layout_margin="13dp"
             android:onClick="onMemo"/>
     </LinearLayout>
 
+    <!--그림메모 영역-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="180dp"
@@ -64,5 +65,20 @@
         android:orientation="vertical"
         android:visibility="gone">
     </LinearLayout>
-
+    <Button
+        android:onClick="onSendMemo"
+        android:id="@+id/sendMemo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="그림메모 전송"
+        android:visibility="gone"/>
+    <!--
+        &lt;!&ndash;계산기 영역&ndash;&gt;
+        <include
+            layout="@layout/menu_calculator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_marginTop="5dp"/>
+        -->
 </LinearLayout>
