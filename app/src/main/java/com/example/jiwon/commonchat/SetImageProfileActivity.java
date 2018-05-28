@@ -70,7 +70,7 @@ public class SetImageProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveImg();
-                startActivity(new Intent(SetImageProfileActivity.this, MainActivity.class));
+                startActivity(new Intent(SetImageProfileActivity.this, MenuActivity.class));
             }
         });
 
@@ -104,6 +104,7 @@ public class SetImageProfileActivity extends AppCompatActivity {
 
     public void saveImg(){
 
+
         if (filePath != null) {
             //업로드 진행 Dialog 보이기
             final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -134,6 +135,8 @@ public class SetImageProfileActivity extends AppCompatActivity {
                                 storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                     //성공시 이미지 출력
                                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+
+
                                         Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
                                         mImage.setImageBitmap(bitmap);
                                         Toast.makeText(getApplicationContext(), "다운로드 완료!", Toast.LENGTH_SHORT).show();
@@ -161,7 +164,7 @@ public class SetImageProfileActivity extends AppCompatActivity {
                             if (mAuth != null) {
                                 // DATABASE 넣는 부분
                                 String s = filePath.toString();
-                                mDatabase.child("freeboard").push().setValue(s);
+                                mDatabase.child("users").child("name").push().setValue(s);
                             }
 
                         }

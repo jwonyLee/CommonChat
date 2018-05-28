@@ -33,4 +33,36 @@
         android:gravity="bottom"
         android:layout_marginTop="5dp"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:id="@+id/selectMenu"
+        android:orientation="horizontal"
+        >
+
+        <!--android:visibility="gone"-->
+        <ImageView
+            android:id="@+id/calculatorImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/calculator"
+            android:layout_margin="18dp"
+            android:onClick="onCal"/>
+        <ImageView
+            android:id="@+id/memoImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/memo"
+            android:layout_margin="18dp"
+            android:onClick="onMemo"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:id="@+id/linear"
+        android:orientation="vertical"
+        android:visibility="gone">
+    </LinearLayout>
+
 </LinearLayout>
