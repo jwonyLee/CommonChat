@@ -223,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     }
 
-
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //페이스북 로그인
@@ -278,6 +278,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
     }
+
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {

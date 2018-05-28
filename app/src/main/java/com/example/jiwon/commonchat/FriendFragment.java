@@ -57,6 +57,7 @@ public class FriendFragment extends Fragment {
         list_itemArrayList = new ArrayList<FriendDTO>();
 
         if (mAuth != null) {
+            // 연락처 권한 여부 체크
             int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_CONTACTS);
 
             if (permissionCheck == PackageManager.PERMISSION_DENIED) {
@@ -84,7 +85,6 @@ public class FriendFragment extends Fragment {
                                 int phoneNumberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
 
                                 do {
-
                                     // 요소값 얻기
                                     int id = cursor.getInt(idIndex);
                                     name[count] = cursor.getString(nameIndex);
@@ -105,11 +105,10 @@ public class FriendFragment extends Fragment {
                                         listView.setAdapter(adapter);
 
                                     }
-
+                                    // 닉네임 얻어오기
                                     if (userDTO.getEmail().equals(myName)) {
                                         myName = userDTO.getName();
                                     }
-
                                     count++;
 
                                 } while (cursor.moveToNext() || count > end);
