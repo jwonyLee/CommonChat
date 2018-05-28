@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     android:orientation="vertical"
-
+    android:visibility="gone"
     tools:context=".ChatActivity">
 
 
@@ -115,7 +115,7 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="send" />
+                android:text="=" />
 
             <Button
                 android:id="@+id/button15"

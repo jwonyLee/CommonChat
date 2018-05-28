@@ -170,6 +170,23 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         // sendButton을 눌렀을 때에 입력된 문자를 messageArea에 setText해줌
         sendButton.setOnClickListener(this);
+        button1.setOnClickListener(this);
+        button2.setOnClickListener(this);
+        button3.setOnClickListener(this);
+        button4.setOnClickListener(this);
+        button5.setOnClickListener(this);
+        button6.setOnClickListener(this);
+        button7.setOnClickListener(this);
+        button8.setOnClickListener(this);
+        button9.setOnClickListener(this);
+        button10.setOnClickListener(this);
+        button11.setOnClickListener(this);
+        button12.setOnClickListener(this);
+        button13.setOnClickListener(this);
+        button14.setOnClickListener(this);
+        button15.setOnClickListener(this);
+        button16.setOnClickListener(this);
+
     }
 
     @Override
@@ -241,8 +258,46 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button9:
                 messageArea.setText(messageArea.getText().toString()+7);
                 break;
+            case R.id.button10:
+                messageArea.setText(messageArea.getText().toString()+8);
+                break;
+            case R.id.button11:
+                messageArea.setText(messageArea.getText().toString()+9);
+                break;
+            case R.id.button12:      // 곱하기
+                a = Integer.valueOf(messageArea.getText().toString().trim());
+                messageArea.setText("");
+                where =3;
+                break;
 
-
+            case R.id.button13:
+                messageArea.setText(messageArea.getText().toString()+0);
+                break;
+            case R.id.button14:
+                if(where==1){
+                    a = a + Integer.valueOf(messageArea.getText().toString().trim());
+                    messageArea.setText(Integer.toString(a));
+                }
+                else if(where==2){
+                    a = a - Integer.valueOf(messageArea.getText().toString().trim());
+                    messageArea.setText(Integer.toString(a));
+                }
+                else if(where==3){
+                    a = a * Integer.valueOf(messageArea.getText().toString().trim());
+                    messageArea.setText(Integer.toString(a));
+                }
+                else if(where==4){
+                    a = a / Integer.valueOf(messageArea.getText().toString().trim());
+                    messageArea.setText(Integer.toString(a));
+                } break;
+            case R.id.button15:     //전체 지우기
+                messageArea.setText("");
+                break;
+            case R.id.button16:     //나누기
+                Integer.valueOf(messageArea.getText().toString().trim());
+                messageArea.setText("");
+                where =4;
+                break;
 
         }
     }
