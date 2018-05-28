@@ -34,9 +34,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:noHistory="true" />
-        <activity
             android:name=".JoinUsActivity"
             android:noHistory="true" />
         <activity
