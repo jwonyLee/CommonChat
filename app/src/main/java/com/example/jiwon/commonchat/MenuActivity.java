@@ -46,6 +46,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 
 
+// 친구목록 채팅목록 설정
 public class MenuActivity extends AppCompatActivity {
     private FirebaseUser user;
     private FirebaseAuth mAuth;
