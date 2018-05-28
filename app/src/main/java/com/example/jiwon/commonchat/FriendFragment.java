@@ -1,11 +1,13 @@
 package com.example.jiwon.commonchat;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,78 +59,90 @@ public class FriendFragment extends Fragment {
         list_itemArrayList = new ArrayList<FriendDTO>();
 
         if (mAuth != null) {
-            mDatabase.child("users").addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    UserDTO userDTO = dataSnapshot.getValue(UserDTO.class);
-                    // 데이터 접근을 위한 메소드( uri:원하는 데이터를 가져오기 위해 정해진 주소, projecion:null일 경우, 모든 컬럼 목록, selection:조건절, selectionArgs:selectinon에 ?로 표시한 곳에 들어갈 데이터, sortOrder:정렬을 위한 구문(order by) )
-                    cursor = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+            int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_CONTACTS);
 
-                    int count = 0;
-                    int end = cursor.getCount();
-                    String[] name = new String[end];
-                    String[] phoneNumber = new String[end];
+            if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+                // 권한 없음
+            } else {
+                // 권한 있음
+                mDatabase.child("users").addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        if (dataSnapshot != null) {
+                            UserDTO userDTO = dataSnapshot.getValue(UserDTO.class);
+                            // 데이터 접근을 위한 메소드( uri:원하는 데이터를 가져오기 위해 정해진 주소, projecion:null일 경우, 모든 컬럼 목록, selection:조건절, selectionArgs:selectinon에 ?로 표시한 곳에 들어갈 데이터, sortOrder:정렬을 위한 구문(order by) )
+                            cursor = getActivity().getApplicationContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
 
-                    if (cursor.moveToFirst()) {
+                            int count = 0;
+                            int end = cursor.getCount();
+                            String[] name = new String[end];
+                            String[] phoneNumber = new String[end];
 
-                        // 컬럼명으로 컬럼 인덱스 찾기
-                        int idIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID);
-                        int nameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-                        int phoneNumberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                            if (cursor.moveToFirst()) {
 
-                        do {
+                                // 컬럼명으로 컬럼 인덱스 찾기
+                                int idIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID);
+                                int nameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                                int phoneNumberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
 
-                            // 요소값 얻기
-                            int id = cursor.getInt(idIndex);
-                            name[count] = cursor.getString(nameIndex);
-                            phoneNumber[count] = cursor.getString(phoneNumberIndex);
+                                do {
 
-                            // 얻은 전화번호를 전화번호 저장 형식에 맞추어 가공
-                            String death = phoneNumber[count].replaceAll("\\D", "");
-                            if (!death.startsWith("+82"))
-                                death = death.replaceFirst("010", "+8210");
+                                    // 요소값 얻기
+                                    int id = cursor.getInt(idIndex);
+                                    name[count] = cursor.getString(nameIndex);
+                                    phoneNumber[count] = cursor.getString(phoneNumberIndex);
 
-                            if (death.startsWith("82"))
-                                death = death.replaceFirst("82", "+82");
+                                    // 얻은 전화번호를 전화번호 저장 형식에 맞추어 가공
+                                    String death = phoneNumber[count].replaceAll("\\D", "");
+                                    if (!death.startsWith("+82"))
+                                        death = death.replaceFirst("010", "+8210");
 
-                            // 어플 회원이면서 내 연락처의 저장되어있으면 친구 목록에 추가
-                            if (userDTO.getTel().equals(death)) {
-                                list_itemArrayList.add(new FriendDTO(R.mipmap.ic_launcher, userDTO.getName()));
-                                adapter = new FriendAdapter(getActivity(), list_itemArrayList);
-                                listView.setAdapter(adapter);
+                                    if (death.startsWith("82"))
+                                        death = death.replaceFirst("82", "+82");
+
+                                    // 어플 회원이면서 내 연락처의 저장되어있으면 친구 목록에 추가
+                                    if (userDTO.getTel() == death) {
+                                        list_itemArrayList.add(new FriendDTO(R.mipmap.ic_launcher, userDTO.getName()));
+                                        adapter = new FriendAdapter(getActivity(), list_itemArrayList);
+                                        listView.setAdapter(adapter);
+                                    }
+
+                                    if (userDTO.getEmail() == myName) {
+                                        myName = userDTO.getName();
+                                    }
+
+                                    count++;
+
+                                } while (cursor.moveToNext() || count > end);
+
                             }
-
-                            if (userDTO.getEmail().equals(myName)) {
-                                myName = userDTO.getName();
-                            }
-
-                            count++;
-
-                        } while(cursor.moveToNext() || count > end);
+                        }
 
                     }
-                }
 
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                }
+                    }
 
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                }
+                    }
 
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                }
+                    }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
+                    }
+                });
+            }
+
+
         }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -150,6 +164,10 @@ public class FriendFragment extends Fragment {
     }
 
 
+    // 현재의 상태를 저장, 저장한 상태를 재사용 가능하게 해줌
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
 }
-
-
