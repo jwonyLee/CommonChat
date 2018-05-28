@@ -66,7 +66,7 @@ public class SetProfileActivity extends AppCompatActivity {
 
                 UserDTO user = new UserDTO(email, state, name, tel);
                 Ref.child("users").push().setValue(user);
-                startActivity(new Intent(SetProfileActivity.this, MainActivity.class));
+                startActivity(new Intent(SetProfileActivity.this, MenuActivity.class));
                 finish();
             }
         });

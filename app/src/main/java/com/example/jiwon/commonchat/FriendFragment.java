@@ -58,32 +58,6 @@ public class FriendFragment extends Fragment {
         listView = (ListView) rootView.findViewById(R.id.friendListView);
         list_itemArrayList = new ArrayList<FriendDTO>();
 
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            ArrayList<String> al = new ArrayList<>();
-
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView item = (TextView) view.findViewById(R.id.profileTextView);
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra("other", item.getText().toString());
-                intent.putExtra("myName", myName);
-                startActivity(intent);
-
-            }
-        });
-
-
-        return rootView;
-    }
-
-    // 프래그먼트가 다 그려지고 나서 호출됨. -> 뷰를 수정가능
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        // 뷰에 데이터를 넣는 작업 등을 할 추가할 수 있음
-
         if (mAuth != null) {
             int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.READ_CONTACTS);
 
@@ -97,7 +71,7 @@ public class FriendFragment extends Fragment {
                         if (dataSnapshot != null) {
                             UserDTO userDTO = dataSnapshot.getValue(UserDTO.class);
                             // 데이터 접근을 위한 메소드( uri:원하는 데이터를 가져오기 위해 정해진 주소, projecion:null일 경우, 모든 컬럼 목록, selection:조건절, selectionArgs:selectinon에 ?로 표시한 곳에 들어갈 데이터, sortOrder:정렬을 위한 구문(order by) )
-                            cursor = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+                            cursor = getActivity().getApplicationContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
 
                             int count = 0;
                             int end = cursor.getCount();
@@ -170,7 +144,25 @@ public class FriendFragment extends Fragment {
 
 
         }
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            ArrayList<String> al = new ArrayList<>();
+
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView item = (TextView) view.findViewById(R.id.profileTextView);
+                Intent intent = new Intent(getActivity(), ChatActivity.class);
+                intent.putExtra("other", item.getText().toString());
+                intent.putExtra("myName", myName);
+                startActivity(intent);
+
+            }
+        });
+
+
+        return rootView;
     }
+
 
     // 현재의 상태를 저장, 저장한 상태를 재사용 가능하게 해줌
     @Override

@@ -83,7 +83,7 @@ public class JoinUsActivity extends AppCompatActivity {
         mReturnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(JoinUsActivity.this, LoginActivity.class);
+                Intent intent = new Intent(JoinUsActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });

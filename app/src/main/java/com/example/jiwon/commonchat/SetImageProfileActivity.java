@@ -70,7 +70,7 @@ public class SetImageProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveImg();
-                startActivity(new Intent(SetImageProfileActivity.this, MainActivity.class));
+                startActivity(new Intent(SetImageProfileActivity.this, MenuActivity.class));
             }
         });
 
