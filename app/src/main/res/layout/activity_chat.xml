@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical">
+
+    <!--채팅이 존재하는 영역, 화면 내용이 잘리지 않도록 채팅화면 전체적으로 스크롤뷰-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_weight="20"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView">
+        <!--최근 채팅순으로 쌓이도록-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/layout">
+        </LinearLayout>
+    </ScrollView>
+
+    <!--채팅입력영역, 같은 형식의 Layout이 반복될 경우, 'include'속성을 이용-->
+    <include
+        layout="@layout/message_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_marginTop="5dp"/>
+
+    <!--그림메모, 계산기 메뉴-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:id="@+id/selectMenu"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/calculatorImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/calculator"
+            android:layout_margin="13dp"
+            android:onClick="onCal"/>
+        <ImageView
+            android:id="@+id/memoImage"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/memo"
+            android:layout_margin="13dp"
+            android:onClick="onMemo"/>
+    </LinearLayout>
+
+    <!--그림메모 영역-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:id="@+id/linear"
+        android:orientation="vertical"
+        android:visibility="gone">
+    </LinearLayout>
+    <Button
+        android:onClick="onSendMemo"
+        android:id="@+id/sendMemo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="그림메모 전송"
+        android:visibility="gone"/>
+
+    <!--계산기 영역-->
+    <include
+        layout="@layout/menu_calculator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:layout_marginTop="5dp"/>
+
+</LinearLayout>
