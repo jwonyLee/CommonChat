@@ -24,15 +24,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -59,8 +54,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView sendButton;   // messagearea.xml
     private EditText messageArea;   // messagearea.xml
     private DatabaseReference ref1, ref2;    // 데이터베이스를 참조하기 위한 선언
-    private UserDTO uDTO;
-    private FriendDTO fDTO;
 
     private DatabaseReference ref;
     private FirebaseAuth mAuth;
