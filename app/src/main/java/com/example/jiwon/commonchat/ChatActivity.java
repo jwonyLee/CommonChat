@@ -10,14 +10,17 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,8 +86,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mAuth;
 
     // db 방 이름
-    String roomname = "";
-    String roomother = "";
+    static String roomname = "";
+    static String roomother = "";
 
     String myname;
     String username;
@@ -99,6 +102,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(false);            //액션바 아이콘을 업 네비게이션 형태로 표시합니다.
+        actionBar.setDisplayShowTitleEnabled(false);        //액션바에 표시되는 제목의 표시유무를 설정합니다.
+        actionBar.setDisplayShowHomeEnabled(false);
+        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        View actionbar = inflater.inflate(R.layout.action_title, null);
+
+        actionBar.setCustomView(actionbar);
 
         Intent intent = getIntent();
         roomother = intent.getExtras().getString("other");
@@ -273,7 +286,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button13:
                 messageArea.setText(messageArea.getText().toString()+0);
                 break;
-            case R.id.button14:
+            case R.id.button14:     //결과
                 if(where==1){
                     a = a + Integer.valueOf(messageArea.getText().toString().trim());
                     messageArea.setText(Integer.toString(a));
@@ -289,7 +302,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 else if(where==4){
                     a = a / Integer.valueOf(messageArea.getText().toString().trim());
                     messageArea.setText(Integer.toString(a));
-                } break;
+                }
+                findViewById(R.id.calculatorXML).setVisibility(v.GONE);
+                break;
             case R.id.button15:     //전체 지우기
                 messageArea.setText("");
                 break;
@@ -336,6 +351,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         // ChatActivity클래스에 텍스트뷰 생성(보내지는 대화메세지들을 화면에 띄우기 위해)
         TextView textView = new TextView(ChatActivity.this);
         textView.setText(message);
+
+        Typeface typeface = getResources().getFont(R.font.font_bmjua);
+        textView.setTypeface(typeface);
+        textView.setTextSize(24);
+        textView.setPadding(10,10,10,10);
 
         // LayoutParams : 여백의 값(너비, 높이) 설정할 수 있게 해줌     // 현재 설정되어 있는 레이아웃 파라미터를 조사
         LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
