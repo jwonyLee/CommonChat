@@ -1,6 +1,7 @@
 package com.example.jiwon.commonchat;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ public class FriendAdapter extends BaseAdapter {
     public FriendAdapter (Context context, ArrayList<FriendDTO> list_itemArrayList) {
         this.context = context;
         this.list_itemArrayList = list_itemArrayList;
+
     }
 
     @Override
@@ -51,6 +53,10 @@ public class FriendAdapter extends BaseAdapter {
         nameTextView.setText(list_itemArrayList.get(position).getNameTextView().toString());
         stateTextView.setText(list_itemArrayList.get(position).getStateTextView().toString());
 
+        Typeface typeface = convertView.getResources().getFont(R.font.font_bmjua);
+        nameTextView.setTypeface(typeface);
+        nameTextView.setTextSize(24);
+        nameTextView.setPadding(10,10,10,10);
 
         return convertView;
     }
