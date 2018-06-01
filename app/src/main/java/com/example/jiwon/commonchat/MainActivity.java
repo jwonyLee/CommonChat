@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     @Override
                     public void onSuccess(LoginResult loginResult) {
 
-                        Intent intent = new Intent(MainActivity.this, SetProfileActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), SetProfileActivity.class);
                         startActivity(intent);
                         finish();
                         handleFacebookAccessToken(loginResult.getAccessToken());
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mReturnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, JoinUsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), JoinUsActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         if (task.isSuccessful()) {
                             // 로그인 성공하면, 로그인 화면에서 프로필 설정 화면으로 전환
                             FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(MainActivity.this, SetProfileActivity.class));
+                            startActivity(new Intent(getApplicationContext(), SetProfileActivity.class));
                             finish();
                         } else {
                             // 로그인 실패시, 로그인 실패 메세지 띄워줌
@@ -224,13 +224,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             // 로그인 성공하면 로그인 화면에서 프로필 설정 화면으로 전환
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
                             // 로그인 실패시, 실패 메세지 띄워짐
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "로그인 실패",
+                            Toast.makeText(getApplicationContext(), "로그인 실패",
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 // 구글 로그인 성공시, 파이어베이스에 인증된 후 로그인화면에서 전환
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
-                Intent intent = new Intent(MainActivity.this, SetProfileActivity.class);
+                Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                 startActivity(intent);
                 finish();
 

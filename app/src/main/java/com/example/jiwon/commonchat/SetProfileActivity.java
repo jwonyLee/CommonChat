@@ -74,6 +74,9 @@ public class SetProfileActivity extends AppCompatActivity {
                 String email = mAuth.getCurrentUser().getEmail();
                 String name = mSetName.getText().toString();
                 String tel = mgr.getLine1Number().toString();
+                if (tel.startsWith("010")) {
+                    tel.replaceFirst("010","+8210");
+                }
                 String state = "";
 
                 UserDTO user = new UserDTO(email, state, name, tel);

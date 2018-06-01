@@ -19,12 +19,6 @@
             android:text="@string/tabFriend" />
 
         <android.support.design.widget.TabItem
-            android:id="@+id/tabChatList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tabChat" />
-
-        <android.support.design.widget.TabItem
             android:id="@+id/tabSetting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

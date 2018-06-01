@@ -53,10 +53,6 @@ public class FriendAdapter extends BaseAdapter {
         nameTextView.setText(list_itemArrayList.get(position).getNameTextView().toString());
         stateTextView.setText(list_itemArrayList.get(position).getStateTextView().toString());
 
-        Typeface typeface = convertView.getResources().getFont(R.font.font_bmjua);
-        nameTextView.setTypeface(typeface);
-        nameTextView.setTextSize(24);
-        nameTextView.setPadding(10,10,10,10);
 
         return convertView;
     }

@@ -14,6 +14,7 @@
         android:text="@string/setProfile"
         android:textSize="30dp"
         android:gravity="center"
+        android:fontFamily="@font/font_bmjua"
         android:layout_marginBottom="20dp"/>
 
     <EditText
@@ -22,6 +23,7 @@
         android:id="@+id/setName"
         android:inputType="text"
         android:maxLines="1"
+        android:fontFamily="@font/font_bmjua"
         android:hint="@string/setName"
         android:layout_marginBottom="10dp"/>
 
@@ -30,6 +32,7 @@
         android:layout_height="wrap_content"
         android:text="@string/start"
         android:id="@+id/btnStart"
+        android:fontFamily="@font/font_bmjua"
         android:layout_marginBottom="20dp"/>
 
 </LinearLayout>
