@@ -77,12 +77,6 @@ public class SetImageProfileActivity extends AppCompatActivity {
     }
 
 
-//    public Bitmap getBitmap() {
-//        return mImage.getDrawingCache();
-//    }
-//
-
-
     //결과 처리
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

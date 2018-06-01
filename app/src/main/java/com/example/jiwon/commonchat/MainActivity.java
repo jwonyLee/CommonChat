@@ -46,7 +46,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 // 로그인액티비티
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
     private FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 9001;
     private GoogleApiClient mGoogleApiClient;
@@ -68,41 +68,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public static final int MY_PERMISSIONS_REQUEST_CAMERA = 104;
 
 
-    public void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) { // 만약 로그인이 되어있으면 다음 액티비티 실행
-            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-            startActivity(intent);
-            finish();//
-        }
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(false);            //액션바 아이콘을 업 네비게이션 형태로 표시합니다.
-        actionBar.setDisplayShowTitleEnabled(false);        //액션바에 표시되는 제목의 표시유무를 설정합니다.
-        actionBar.setDisplayShowHomeEnabled(false);
-        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View actionbar = inflater.inflate(R.layout.action_title, null);
-
-        actionBar.setCustomView(actionbar);
-
+        init();
         checkPermission();
-
-        // 초기화
-        mEmail = (EditText) findViewById(R.id.editEmail);
-        mPassword = (EditText) findViewById(R.id.editPassword);
-        mLogin = (Button) findViewById(R.id.btnLogin);
-        mReturnJoin = (TextView) findViewById(R.id.btnReturnJoin);
-        mGoogle = (Button) findViewById(R.id.btnGoogle);
-        mFacebook = (LoginButton) findViewById(R.id.btnFacebook);
 
         // GoogleSignInOptions 생성
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder
@@ -121,35 +93,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mAuth = FirebaseAuth.getInstance();
 
         // 구글 로그인 버튼 이벤트 > signInIntent 호출
-        mGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);
-                finish();
-            }
-        });
+        mGoogle.setOnClickListener(this);
 
         // 이메일 로그인 버튼 이벤트
-        mLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mLogin.setOnClickListener(this);
 
-                LoginWithEmail(mEmail.getText().toString(), mPassword.getText().toString());
-
-            }
-        });
+        // 회원가입 페이지 이동 리스너 추가
+        mReturnJoin.setOnClickListener(this);
 
         // 페이스북 로그인
         callbackManager = CallbackManager.Factory.create();
         mFacebook.setReadPermissions("email");
 
-        mFacebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        mFacebook.setOnClickListener(this);
 
 
         LoginManager.getInstance().registerCallback(callbackManager,
@@ -174,17 +130,68 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 });
 
 
-        // 회원가입 페이지 이동 리스너 추가
-        mReturnJoin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    }
+
+    public void init() {
+        // 커스텀 액션바 설정 및 적용
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(false);            //액션바 아이콘을 업 네비게이션 형태로 표시합니다.
+        actionBar.setDisplayShowTitleEnabled(false);        //액션바에 표시되는 제목의 표시유무를 설정합니다.
+        actionBar.setDisplayShowHomeEnabled(false);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View actionbar = inflater.inflate(R.layout.action_title, null);
+
+        actionBar.setCustomView(actionbar);
+
+        // 초기화
+        mEmail = (EditText) findViewById(R.id.editEmail);
+        mPassword = (EditText) findViewById(R.id.editPassword);
+        mLogin = (Button) findViewById(R.id.btnLogin);
+        mReturnJoin = (TextView) findViewById(R.id.btnReturnJoin);
+        mGoogle = (Button) findViewById(R.id.btnGoogle);
+        mFacebook = (LoginButton) findViewById(R.id.btnFacebook);
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) { // 만약 로그인이 되어있으면 다음 액티비티 실행
+            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+            startActivity(intent);
+            finish();//
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            // 로그인 버튼 이벤트
+            case R.id.btnLogin:
+                LoginWithEmail(mEmail.getText().toString(), mPassword.getText().toString());
+                break;
+
+            // 구글 로그인 버튼 이벤트
+            case R.id.btnGoogle:
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+                finish();
+                break;
+
+
+            // 회원가입으로 이동 버튼 이벤트
+            case R.id.btnReturnJoin:
                 Intent intent = new Intent(MainActivity.this, JoinUsActivity.class);
                 startActivity(intent);
                 finish();
-            }
-        });
+                break;
 
-
+            // 페이스북 로그인 버튼 이벤트
+            case R.id.btnFacebook:
+                break;
+        }
     }
 
 
@@ -270,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
     }
+
 
     // 사용자가 정상적으로 로그인한 후에 GoogleSignInAccount 개체에서 ID 토큰을 가져와서
     //Firebase 사용자 인증 정보로 교환하고 Firebase 사용자 인증 정보를 사용해 Firebase에 인증합니다.

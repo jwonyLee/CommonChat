@@ -23,9 +23,6 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
                 FriendFragment friendFragment = new FriendFragment();
                 return friendFragment;
             case 1:
-                ChatFragment chatFragment = new ChatFragment();
-                return chatFragment;
-            case 2:
                 SettingFragment settingFragment = new SettingFragment();
                 return settingFragment;
             default:
