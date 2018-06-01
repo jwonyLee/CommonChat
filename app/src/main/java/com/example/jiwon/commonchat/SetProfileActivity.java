@@ -20,9 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-public class SetProfileActivity extends AppCompatActivity {
+public class SetProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText mSetName;
-    private Button mStartbtn;
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
@@ -34,6 +33,12 @@ public class SetProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_profile);
 
+        init();
+
+        findViewById(R.id.btnStart).setOnClickListener(this);
+    }
+
+    private void init() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(false);            //액션바 아이콘을 업 네비게이션 형태로 표시합니다.
@@ -46,15 +51,15 @@ public class SetProfileActivity extends AppCompatActivity {
 
         // 초기화
         mSetName = (EditText) findViewById(R.id.setName);
-        mStartbtn = (Button) findViewById(R.id.btnStart);
-
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         Ref = database.getReference();
+    }
 
-        mStartbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnStart:
                 if (mSetName.getText().toString().equals("")) {
                     Toast.makeText(getApplicationContext(), "이름이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
                     return;
@@ -80,7 +85,7 @@ public class SetProfileActivity extends AppCompatActivity {
                 Ref.child("users").push().setValue(user);
                 startActivity(new Intent(SetProfileActivity.this, MenuActivity.class));
                 finish();
-            }
-        });
+                break;
+        }
     }
 }

@@ -44,7 +44,6 @@ public class SetImageProfileActivity extends AppCompatActivity implements View.O
     Uri filePath;
 
     private ImageButton mImage;
-    private Button mSetup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,6 @@ public class SetImageProfileActivity extends AppCompatActivity implements View.O
 
     public void init() {
         mImage = (ImageButton) findViewById(R.id.setImageProfile);
-        mSetup = (Button) findViewById(R.id.setProfileBtn);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
     }
