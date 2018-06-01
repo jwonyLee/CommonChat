@@ -31,14 +31,15 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
-public class SetImageProfileActivity extends AppCompatActivity {
+public class SetImageProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
     private static final String TAG = "MainActivity";
-    final int GET_PICTURE_URI=100;
+    final int GET_PICTURE_URI = 100;
 
     Uri filePath;
 
@@ -50,39 +51,46 @@ public class SetImageProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_image_profile);
 
+        init();
+
+
+        findViewById(R.id.setImageProfile).setOnClickListener(this);
+        findViewById(R.id.setProfileBtn).setOnClickListener(this);
+
+    }
+
+    public void init() {
         mImage = (ImageButton) findViewById(R.id.setImageProfile);
         mSetup = (Button) findViewById(R.id.setProfileBtn);
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+    }
 
-
-        mImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    public void onClick(View v) {
+        switch (v.getId()) {
+            // 이미지 선택 이벤트
+            case R.id.setImageProfile:
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "이미지를 선택하세요."), 0);
-            }
-        });
-        mSetup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+
+                // 설정 버튼 이벤트
+            case R.id.setProfileBtn:
                 saveImg();
                 startActivity(new Intent(SetImageProfileActivity.this, MenuActivity.class));
-            }
-        });
+                break;
 
+        }
     }
-
 
     //결과 처리
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //request코드가 0이고 OK를 선택했고 data에 뭔가가 들어 있다면
-        if(requestCode == 0 && resultCode == RESULT_OK){
+        if (requestCode == 0 && resultCode == RESULT_OK) {
             filePath = data.getData();
             try {
                 //Uri 파일을 Bitmap으로 만들어서 ImageButton에 집어 넣는다.
@@ -96,7 +104,7 @@ public class SetImageProfileActivity extends AppCompatActivity {
     }
 
 
-    public void saveImg(){
+    public void saveImg() {
 
 
         if (filePath != null) {
@@ -109,7 +117,7 @@ public class SetImageProfileActivity extends AppCompatActivity {
             FirebaseStorage storage = FirebaseStorage.getInstance();
 
             // 파일명 만들기
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss", Locale.KOREA);
             Date now = new Date();
             String filename = formatter.format(now) + ".png";
             //storage 주소와 폴더 파일명을 지정해 준다.
@@ -144,11 +152,11 @@ public class SetImageProfileActivity extends AppCompatActivity {
                                     @Override
                                     public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                         @SuppressWarnings("VisibleForTests")
-                                        double progress = (100 * taskSnapshot.getBytesTransferred()) /  taskSnapshot.getTotalByteCount();
+                                        double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                                     }
                                 });
 
-                            } catch (IOException e ) {
+                            } catch (IOException e) {
                                 e.printStackTrace();
                             }
 
@@ -176,7 +184,7 @@ public class SetImageProfileActivity extends AppCompatActivity {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             @SuppressWarnings("VisibleForTests")
-                            double progress = (100 * taskSnapshot.getBytesTransferred()) /  taskSnapshot.getTotalByteCount();
+                            double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                             //dialog에 진행률을 퍼센트로 출력해 준다
                             progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
                         }
