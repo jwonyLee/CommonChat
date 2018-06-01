@@ -29,7 +29,7 @@ import org.w3c.dom.Text;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class JoinUsActivity extends AppCompatActivity {
+public class JoinUsActivity extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth mAuth;
     private Context mContext;
     private final String TAG = "회원가입 액티비티";
@@ -53,6 +53,19 @@ public class JoinUsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_us);
 
+        // 초기화
+        init();
+
+        // 리스너 설정
+        mReturnLogin.setOnClickListener(this);
+        mJoin.setOnClickListener(this);
+
+    }
+
+
+    private void init() {
+
+        // 커스텀 액션바 설정 및 적용
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(false);            //액션바 아이콘을 업 네비게이션 형태로 표시합니다.
@@ -63,14 +76,13 @@ public class JoinUsActivity extends AppCompatActivity {
 
         actionBar.setCustomView(actionbar);
 
+        // 변수 초기화
         mEmail = (EditText) findViewById(R.id.editJoinEmail);
         mPassword = (EditText) findViewById(R.id.editJoinPassword);
         mPassword2 = (EditText) findViewById(R.id.editJoinPassword2);
         mJoin = (Button) findViewById(R.id.btnJoin);
         mReturnLogin = (TextView) findViewById(R.id.btnReturnJoin);
 
-
-        // 초기화
         mContext = this;
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -89,29 +101,9 @@ public class JoinUsActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         Ref = database.getReference();
-
-
-        // 로그인 페이지 이동 리스너 추가
-        mReturnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(JoinUsActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        mJoin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = mEmail.getText().toString();
-                String password = mPassword.getText().toString();
-                String password2 = mPassword2.getText().toString();
-                createAccount(email, password, password2);
-            }
-        });
-
     }
 
+    // 회원가입 처리 함수
     private void createAccount(final String email, final String password, String password2) {
         if (!isValidEmail(email)) {
             Log.e(TAG, "createAccount: email is not valid ");
@@ -203,4 +195,20 @@ public class JoinUsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnReturnJoin:
+                Intent intent = new Intent(JoinUsActivity.this, MainActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btnJoin:
+                String email = mEmail.getText().toString();
+                String password = mPassword.getText().toString();
+                String password2 = mPassword2.getText().toString();
+                createAccount(email, password, password2);
+                break;
+
+        }
+    }
 }
