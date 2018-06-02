@@ -1,24 +1,15 @@
 package com.example.jiwon.commonchat;
 
-<<<<<<< HEAD
-import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.NonNull;
-=======
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
->>>>>>> add/commend
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-<<<<<<< HEAD
-=======
 import android.view.LayoutInflater;
->>>>>>> add/commend
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,19 +24,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-<<<<<<< HEAD
-=======
 import org.w3c.dom.Text;
->>>>>>> add/commend
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-<<<<<<< HEAD
-public class JoinUsActivity extends AppCompatActivity {
-=======
 public class JoinUsActivity extends AppCompatActivity implements View.OnClickListener{
->>>>>>> add/commend
     private FirebaseAuth mAuth;
     private Context mContext;
     private final String TAG = "회원가입 액티비티";
@@ -69,8 +53,6 @@ public class JoinUsActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_us);
 
-<<<<<<< HEAD
-=======
         // 초기화
         init();
 
@@ -95,18 +77,12 @@ public class JoinUsActivity extends AppCompatActivity implements View.OnClickLis
         actionBar.setCustomView(actionbar);
 
         // 변수 초기화
->>>>>>> add/commend
         mEmail = (EditText) findViewById(R.id.editJoinEmail);
         mPassword = (EditText) findViewById(R.id.editJoinPassword);
         mPassword2 = (EditText) findViewById(R.id.editJoinPassword2);
         mJoin = (Button) findViewById(R.id.btnJoin);
         mReturnLogin = (TextView) findViewById(R.id.btnReturnJoin);
 
-<<<<<<< HEAD
-
-        // 초기화
-=======
->>>>>>> add/commend
         mContext = this;
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -125,35 +101,9 @@ public class JoinUsActivity extends AppCompatActivity implements View.OnClickLis
 
         database = FirebaseDatabase.getInstance();
         Ref = database.getReference();
-<<<<<<< HEAD
-
-
-        // 로그인 페이지 이동 리스너 추가
-        mReturnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(JoinUsActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        mJoin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = mEmail.getText().toString();
-                String password = mPassword.getText().toString();
-                String password2 = mPassword2.getText().toString();
-                createAccount(email, password, password2);
-            }
-        });
-
-    }
-
-=======
     }
 
     // 회원가입 처리 함수
->>>>>>> add/commend
     private void createAccount(final String email, final String password, String password2) {
         if (!isValidEmail(email)) {
             Log.e(TAG, "createAccount: email is not valid ");
@@ -245,8 +195,6 @@ public class JoinUsActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-<<<<<<< HEAD
-=======
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -263,5 +211,4 @@ public class JoinUsActivity extends AppCompatActivity implements View.OnClickLis
 
         }
     }
->>>>>>> add/commend
 }

@@ -1,9 +1,6 @@
 package com.example.jiwon.commonchat;
 
-<<<<<<< HEAD
-=======
 import android.graphics.Bitmap;
->>>>>>> add/commend
 
 public class FriendDTO {
     private int profileImageView;

@@ -26,14 +26,10 @@
             android:textColor="#CFD8DC"
             android:hint="Write a message..."
             android:id="@+id/messageArea"
-<<<<<<< HEAD
-            android:maxHeight="80dp" />
-=======
             android:maxHeight="80dp">
 
             <requestFocus />
         </EditText>
->>>>>>> add/commend
 
         <!--채팅 전송 버튼 역할-->
         <ImageView

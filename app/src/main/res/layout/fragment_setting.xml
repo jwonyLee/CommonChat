@@ -6,20 +6,13 @@
     tools:context=".SettingFragment"
     android:orientation="vertical">
 
-<<<<<<< HEAD
-=======
     <!--프로필 설정-->
->>>>>>> add/commend
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-<<<<<<< HEAD
-        android:id="@+id/setImage">
-=======
         android:id="@+id/setImage"
         android:layout_gravity="center_vertical">
->>>>>>> add/commend
 
         <ImageView
             android:layout_width="35dp"
@@ -30,27 +23,17 @@
             android:layout_height="wrap_content"
             android:textSize="19dp"
             android:text="프로필 설정"
-<<<<<<< HEAD
-            android:layout_marginLeft="25dp" />
-    </LinearLayout>
-
-=======
             android:layout_marginLeft="25dp"
             android:fontFamily="@font/font_bmjua"/>
     </LinearLayout>
 
     <!--알림 설정-->
->>>>>>> add/commend
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-<<<<<<< HEAD
-        android:id="@+id/setAlram">
-=======
         android:id="@+id/setAlram"
         android:layout_gravity="center_vertical">
->>>>>>> add/commend
 
         <ImageView
             android:layout_width="35dp"
@@ -61,12 +44,8 @@
             android:layout_height="wrap_content"
             android:textSize="19dp"
             android:text="알림 설정"
-<<<<<<< HEAD
-            android:layout_marginLeft="25dp"/>
-=======
             android:layout_marginLeft="25dp"
             android:fontFamily="@font/font_bmjua"/>
->>>>>>> add/commend
         <!--<ToggleButton-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
@@ -75,22 +54,14 @@
 
     </LinearLayout>
 
-<<<<<<< HEAD
-
-=======
         <!--로그아웃-->
->>>>>>> add/commend
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="20dp"
-<<<<<<< HEAD
-        android:id="@+id/setLogout">
-=======
         android:id="@+id/setLogout"
         android:layout_gravity="center_vertical">
->>>>>>> add/commend
 
         <ImageView
             android:layout_width="35dp"
@@ -101,10 +72,7 @@
             android:layout_height="wrap_content"
             android:textSize="19dp"
             android:text="로그아웃"
-<<<<<<< HEAD
-=======
             android:fontFamily="@font/font_bmjua"
->>>>>>> add/commend
             android:layout_marginLeft="25dp"/>
     </LinearLayout>
 

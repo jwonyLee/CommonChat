@@ -6,10 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".SetImageProfileActivity">
 
-<<<<<<< HEAD
-=======
     <!--프로필 이미지 사진 바꾸기-->
->>>>>>> add/commend
     <ImageButton
         android:id="@+id/setImageProfile"
         android:layout_width="160dp"
@@ -22,11 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.444" />
 
-<<<<<<< HEAD
-
-=======
     <!--프로필 이미지 사진 설정 버튼-->
->>>>>>> add/commend
     <Button
         android:id="@+id/setProfileBtn"
         android:layout_width="wrap_content"

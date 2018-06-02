@@ -1,17 +1,5 @@
 package com.example.jiwon.commonchat;
 
-<<<<<<< HEAD
-import android.content.Intent;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.TextView;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-=======
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -57,7 +45,6 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
->>>>>>> add/commend
 import com.google.firebase.database.DatabaseReference;
 
 
@@ -78,11 +65,8 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-<<<<<<< HEAD
-=======
         init();
 
->>>>>>> add/commend
         checkLogin();
 
         TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), 2);
@@ -90,10 +74,6 @@ public class MenuActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-<<<<<<< HEAD
-
-=======
->>>>>>> add/commend
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -114,8 +94,6 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
-<<<<<<< HEAD
-=======
     public void init() {
         // 커스텀 액션바 설정 및 적용
         ActionBar actionBar = getSupportActionBar();
@@ -129,7 +107,6 @@ public class MenuActivity extends AppCompatActivity {
         actionBar.setCustomView(actionbar);
     }
 
->>>>>>> add/commend
 
     private void checkLogin() {
         FacebookSdk.sdkInitialize(getApplicationContext());

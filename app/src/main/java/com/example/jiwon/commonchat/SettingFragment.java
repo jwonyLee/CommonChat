@@ -8,10 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-<<<<<<< HEAD
-=======
 import android.widget.TextView;
->>>>>>> add/commend
 
 public class SettingFragment extends Fragment implements View.OnClickListener{
     public SettingFragment() {};
@@ -27,10 +24,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup settingView = (ViewGroup)  inflater.inflate(R.layout.fragment_setting, container, false);
 
-<<<<<<< HEAD
-=======
         // 프로필 설정 누를시, 이미지 프로필 사진 설정하는 화면으로 이동
->>>>>>> add/commend
         setImage = (LinearLayout) settingView.findViewById(R.id.setImage);
         setImage.setOnClickListener(this);
         settingView.findViewById(R.id.setLogout).setOnClickListener(this);

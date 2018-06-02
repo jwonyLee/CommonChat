@@ -13,10 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-<<<<<<< HEAD
-=======
 import android.widget.ImageView;
->>>>>>> add/commend
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,50 +31,25 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-<<<<<<< HEAD
-
-public class SetImageProfileActivity extends AppCompatActivity {
-=======
 import java.util.Locale;
 
 public class SetImageProfileActivity extends AppCompatActivity implements View.OnClickListener {
->>>>>>> add/commend
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
     private static final String TAG = "MainActivity";
-<<<<<<< HEAD
-    final int GET_PICTURE_URI=100;
-=======
     final int GET_PICTURE_URI = 100;
->>>>>>> add/commend
 
     Uri filePath;
 
     private ImageButton mImage;
-<<<<<<< HEAD
-    private Button mSetup;
-=======
->>>>>>> add/commend
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_image_profile);
 
-<<<<<<< HEAD
-        mImage = (ImageButton) findViewById(R.id.setImageProfile);
-        mSetup = (Button) findViewById(R.id.setProfileBtn);
-
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
-
-
-        mImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-=======
         init();
 
 
@@ -96,32 +68,10 @@ public class SetImageProfileActivity extends AppCompatActivity implements View.O
         switch (v.getId()) {
             // 이미지 선택 이벤트
             case R.id.setImageProfile:
->>>>>>> add/commend
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "이미지를 선택하세요."), 0);
-<<<<<<< HEAD
-            }
-        });
-        mSetup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveImg();
-                startActivity(new Intent(SetImageProfileActivity.this, MenuActivity.class));
-            }
-        });
-
-    }
-
-
-//    public Bitmap getBitmap() {
-//        return mImage.getDrawingCache();
-//    }
-//
-
-
-=======
                 break;
 
                 // 설정 버튼 이벤트
@@ -133,17 +83,12 @@ public class SetImageProfileActivity extends AppCompatActivity implements View.O
         }
     }
 
->>>>>>> add/commend
     //결과 처리
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //request코드가 0이고 OK를 선택했고 data에 뭔가가 들어 있다면
-<<<<<<< HEAD
-        if(requestCode == 0 && resultCode == RESULT_OK){
-=======
         if (requestCode == 0 && resultCode == RESULT_OK) {
->>>>>>> add/commend
             filePath = data.getData();
             try {
                 //Uri 파일을 Bitmap으로 만들어서 ImageButton에 집어 넣는다.
@@ -157,11 +102,7 @@ public class SetImageProfileActivity extends AppCompatActivity implements View.O
     }
 
 
-<<<<<<< HEAD
-    public void saveImg(){
-=======
     public void saveImg() {
->>>>>>> add/commend
 
 
         if (filePath != null) {
@@ -173,13 +114,8 @@ public class SetImageProfileActivity extends AppCompatActivity implements View.O
             //storage
             FirebaseStorage storage = FirebaseStorage.getInstance();
 
-<<<<<<< HEAD
-            //Unique한 파일명을 만들자.
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
-=======
             // 파일명 만들기
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss", Locale.KOREA);
->>>>>>> add/commend
             Date now = new Date();
             String filename = formatter.format(now) + ".png";
             //storage 주소와 폴더 파일명을 지정해 준다.
@@ -192,11 +128,7 @@ public class SetImageProfileActivity extends AppCompatActivity implements View.O
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss(); //업로드 진행 Dialog 상자 닫기
-<<<<<<< HEAD
-                            mImage.setImageResource(0);
-=======
 //                            mImage.setImageResource(0);
->>>>>>> add/commend
 
                             try {
                                 final File localFile = File.createTempFile("images", "jpg");
@@ -218,19 +150,11 @@ public class SetImageProfileActivity extends AppCompatActivity implements View.O
                                     @Override
                                     public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                         @SuppressWarnings("VisibleForTests")
-<<<<<<< HEAD
-                                        double progress = (100 * taskSnapshot.getBytesTransferred()) /  taskSnapshot.getTotalByteCount();
-                                    }
-                                });
-
-                            } catch (IOException e ) {
-=======
                                         double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                                     }
                                 });
 
                             } catch (IOException e) {
->>>>>>> add/commend
                                 e.printStackTrace();
                             }
 
@@ -257,13 +181,8 @@ public class SetImageProfileActivity extends AppCompatActivity implements View.O
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-<<<<<<< HEAD
-                            @SuppressWarnings("VisibleForTests") //이걸 넣어 줘야 아랫줄에 에러가 사라진다. 넌 누구냐?
-                                    double progress = (100 * taskSnapshot.getBytesTransferred()) /  taskSnapshot.getTotalByteCount();
-=======
                             @SuppressWarnings("VisibleForTests")
                             double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
->>>>>>> add/commend
                             //dialog에 진행률을 퍼센트로 출력해 준다
                             progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
                         }

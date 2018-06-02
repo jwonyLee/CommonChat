@@ -1,47 +1,30 @@
 package com.example.jiwon.commonchat;
 //[참조]https://www.androidtutorialpoint.com/firebase/real-time-android-chat-application-using-firebase-tutorial/
 
-<<<<<<< HEAD
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-=======
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
->>>>>>> add/commend
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-<<<<<<< HEAD
-import android.net.Uri;
-import android.os.Environment;
-=======
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
->>>>>>> add/commend
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-<<<<<<< HEAD
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-=======
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
->>>>>>> add/commend
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,26 +32,16 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-<<<<<<< HEAD
-=======
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
->>>>>>> add/commend
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-<<<<<<< HEAD
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import java.io.File;
-import java.io.FileOutputStream;
-=======
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -79,7 +52,6 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
->>>>>>> add/commend
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -88,22 +60,6 @@ import java.util.Map;
 //채팅화면
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener {
 
-<<<<<<< HEAD
-
-    private static final String TAG = "ChatActivity";       // 오류가 뜰것인가
-    private Uri filePath;
-
-    SingleTouchView stv;
-    private LinearLayout linear;
-
-
-    private ScrollView scrollView;
-    private LinearLayout layout;
-    private ImageView sendButton;   // messagearea.xml
-    private EditText messageArea;   // messagearea.xml
-    private DatabaseReference ref1, ref2;    // 데이터베이스를 참조하기 위한 선언
-
-=======
     //계산기 버튼
     private Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button10,button11,button12,button13,button14,button15,button16;
     private int result;      //계산기 결과값
@@ -125,18 +81,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     private EditText messageArea;   // messagearea.xml에 존재하는 텍스트
 
     private DatabaseReference ref1, ref2;    // 데이터베이스를 참조하기 위한 선언
->>>>>>> add/commend
     private DatabaseReference ref;
     private FirebaseAuth mAuth;
 
     // db 방 이름
-<<<<<<< HEAD
-    String roomname = "";
-    String roomother = "";
-=======
     static String roomname = "";
     static String roomother = "";
->>>>>>> add/commend
 
     String myname;
     String username;
@@ -152,8 +102,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-<<<<<<< HEAD
-=======
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(false);            //액션바 아이콘을 업 네비게이션 형태로 표시합니다.
@@ -165,25 +113,19 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         actionBar.setCustomView(actionbar);
 
         // 친구목록 액티비티에서의 other, myName 정보를 가져옴.
->>>>>>> add/commend
         Intent intent = getIntent();
         roomother = intent.getExtras().getString("other");
         myname = intent.getExtras().getString("myName");
         roomname = myname+"_"+roomother;
         Log.d("getNickname", roomname);
 
-<<<<<<< HEAD
-=======
         // 데이터베이스에서 messages에 본인과 다른 유저의 데이터가 각각 남아 있을 수 있도록 각각 저장해주기.
->>>>>>> add/commend
         ref = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         ref1 = ref.child("messages").child(myname+"_"+roomother);
         ref2 = ref.child("messages").child(roomother+"_"+myname);
 
 
-<<<<<<< HEAD
-=======
         button1 = (Button)findViewById(R.id.button1);
         button2 = (Button)findViewById(R.id.button2);
         button3 = (Button)findViewById(R.id.button3);
@@ -202,7 +144,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         button16 = (Button)findViewById(R.id.button16);
 
 
->>>>>>> add/commend
         layout = (LinearLayout) findViewById(R.id.layout);     // activity_chat의 LinearLayout
         sendButton = (ImageView) findViewById(R.id.sendButton);  // activity_chat의 LinearLayout
         messageArea = (EditText) findViewById(R.id.messageArea); // message_area의 EditText
@@ -220,13 +161,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onChildAdded(com.google.firebase.database.DataSnapshot dataSnapshot, String s) {
                     MessageDTO messageDTO = dataSnapshot.getValue(MessageDTO.class);
-<<<<<<< HEAD
-                    if (messageDTO.getUser().equals(myname))
-                        addMessageBox(messageDTO.getMessage(),1);
-                    else
-                        addMessageBox(messageDTO.getMessage(), 2);
-
-=======
                     // 데이터베이스에 저장 되어있는 유저이름과 전달받은 유저이름이 일치 할경우, 오른쪽 정렬
                     // 채팅을 하고 있는 자기 자신
                     if (messageDTO.getUser().equals(myname))
@@ -235,7 +169,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         // 채팅을 하고 있는 상대방
                     else
                         addMessageBox(messageDTO.getMessage(),2);
->>>>>>> add/commend
                 }
 
                 @Override
@@ -250,28 +183,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onCancelled(DatabaseError databaseError) {  }
             });
-<<<<<<< HEAD
-
-=======
->>>>>>> add/commend
         }
 
         // sendButton을 눌렀을 때에 입력된 문자를 messageArea에 setText해줌
         sendButton.setOnClickListener(this);
-<<<<<<< HEAD
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.sendButton:
-
-                messageText = messageArea.getText().toString();
-                // 메세지 내용이 존재할 경우
-                if (!messageText.equals("")) {
-
-=======
         button1.setOnClickListener(this);
         button2.setOnClickListener(this);
         button3.setOnClickListener(this);
@@ -300,7 +215,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 // 메세지 내용이 존재할 경우
                 if (!messageText.equals("")) {
                     // 데이터베이스에 유저이름과 메시지를 데이터베이스에 넣어준다.
->>>>>>> add/commend
                     ref.child("users").orderByChild("email").equalTo(mAuth.getCurrentUser().getEmail()).addChildEventListener(new com.google.firebase.database.ChildEventListener() {
                         @Override
                         public void onChildAdded(com.google.firebase.database.DataSnapshot dataSnapshot, String s) {
@@ -326,17 +240,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                     });
 
                 }
-<<<<<<< HEAD
-
-
-//                // 그림메모 메뉴인 경우
-//                else if(flag) {
-//
-
-//                }
-
-        }
-=======
                 break;
 
             // 계산기 숫자 입력
@@ -447,7 +350,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             public void onCancelled(DatabaseError databaseError) {  }
         });
 
->>>>>>> add/commend
     }
 
     // 채팅내용을 TextView에 담아 채팅방에 출력
@@ -456,14 +358,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         TextView textView = new TextView(ChatActivity.this);
         textView.setText(message);
 
-<<<<<<< HEAD
-=======
         Typeface typeface = getResources().getFont(R.font.font_bmjua);
         textView.setTypeface(typeface);
         textView.setTextSize(24);
         textView.setPadding(10,10,10,10);
 
->>>>>>> add/commend
         // LayoutParams : 여백의 값(너비, 높이) 설정할 수 있게 해줌     // 현재 설정되어 있는 레이아웃 파라미터를 조사
         LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp2.weight = 1.0f;  // 가중치 주기
@@ -480,13 +379,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         scrollView.fullScroll(ScrollView.FOCUS_DOWN); // 스크롤 가장 아래로 보내기(채팅시, 가장 최근 대화내용이 보일 수 있도록)
     }
 
-<<<<<<< HEAD
-    public void addImgMessageBox(Uri uri, int type) {
-        flag  = true;
-        // ChatActivity클래스에 텍스트뷰 생성(보내지는 대화메세지들을 화면에 띄우기 위해)
-        ImageView imgView = new ImageView(ChatActivity.this);
-//        textView.setText(message);
-=======
 
   // 그림 메모를 ImageView에 담아 채팅방에 출력
     public void addImgMessageBox(Uri uri, int type) {
@@ -495,7 +387,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         File screenShot = ScreenShot(stv);          ////
         filePath = Uri.fromFile(screenShot);
         imgView.setImageURI(filePath);
->>>>>>> add/commend
 
         // LayoutParams : 여백의 값(너비, 높이) 설정할 수 있게 해줌     // 현재 설정되어 있는 레이아웃 파라미터를 조사
         LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -512,8 +403,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         layout.addView(imgView);           // LinearLayout에 textView 추가 시키기(주고받는 메시지 영역에 추가)
         scrollView.fullScroll(ScrollView.FOCUS_DOWN); // 스크롤 가장 아래로 보내기(채팅시, 가장 최근 대화내용이 보일 수 있도록)
 
-<<<<<<< HEAD
-=======
 
         if (screenShot != null) {
             // storage에 업로드 진행 Dialog 보이기
@@ -608,7 +497,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
->>>>>>> add/commend
     }
 
 
@@ -618,10 +506,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         selectMenu.setVisibility(v.VISIBLE);
     }
 
-<<<<<<< HEAD
-=======
     // 그림메모 화면 보여주기
->>>>>>> add/commend
     public void onMemo(View v) {
         LinearLayout selectMenu = (LinearLayout) findViewById(R.id.selectMenu);
         selectMenu.setVisibility(v.GONE);
@@ -629,8 +514,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         linear = (LinearLayout) findViewById(R.id.linear);
         linear.setVisibility(v.VISIBLE);
 
-<<<<<<< HEAD
-=======
         sendMemo = (Button) findViewById(R.id.sendMemo);
         sendMemo.setVisibility(v.VISIBLE);
 
@@ -644,15 +527,11 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         LinearLayout calculatorXML = (LinearLayout) findViewById(R.id.calculatorXML);
         calculatorXML.setVisibility(v.VISIBLE);
 
->>>>>>> add/commend
 
 
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> add/commend
     //storage
     FirebaseStorage storage = FirebaseStorage.getInstance();
     // 그림메모 저장하는 파일 이름명 정해주기
@@ -662,23 +541,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     // 그림메모 이미지 파일 저장해주는 url 경로
     StorageReference storageRef = storage.getReferenceFromUrl("gs://commonchat-58d3d.appspot.com").child("images/" + filename); //ok
 
-<<<<<<< HEAD
-    private File ScreenShot(View view) {
-        // 1. 캐쉬(Cache)를 허용시킨다.
-        // 2. 그림을 Bitmap 으로 저장.
-        // 3. 캐쉬를 막는다.
-        stv.setDrawingCacheEnabled(true);    // 캐쉬허용
-
-        // 캐쉬에서 가져온 비트맵을 복사해서 새로운 비트맵(스크린샷) 생성
-        Bitmap screenshot = Bitmap.createBitmap(stv.getDrawingCache());
-=======
     // 그림메모 부분만 캡쳐하기
     private File ScreenShot(View view) {
         stv.setDrawingCacheEnabled(true);    // 캐쉬허용
 
         // 캐쉬에서 가져온 비트맵을 복사해서 새로운 비트맵(스크린샷) 생성
         Bitmap screenshot = Bitmap.createBitmap(stv.getDrawingCache());             /////
->>>>>>> add/commend
 
         // SDCard(ExternalStorage) : 외부저장공간
         File file = new File(Environment.getExternalStorageDirectory()+"/Pictures", filename);
@@ -713,10 +581,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             paint.setStrokeJoin(Paint.Join.ROUND);
         }
 
-<<<<<<< HEAD
-=======
         //  선그리기
->>>>>>> add/commend
         protected void onDraw(Canvas canvas) {
             canvas.drawPath(path, paint);
         }
@@ -737,17 +602,10 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                 default:
                     return false;
             }
-<<<<<<< HEAD
-            invalidate();
-=======
             invalidate();       // 새로운을 선을 그을 수 있도록 화면 갱신
->>>>>>> add/commend
             return true;
         }
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> add/commend
 }
