@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class SettingFragment extends Fragment {
+public class SettingFragment extends Fragment implements View.OnClickListener{
     public SettingFragment() {};
     LinearLayout setImage;
     LinearLayout setLogout;
@@ -26,14 +26,23 @@ public class SettingFragment extends Fragment {
 
         // 프로필 설정 누를시, 이미지 프로필 사진 설정하는 화면으로 이동
         setImage = (LinearLayout) settingView.findViewById(R.id.setImage);
-        setImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), SetImageProfileActivity.class));
-            }
-        });
+        setImage.setOnClickListener(this);
+        settingView.findViewById(R.id.setLogout).setOnClickListener(this);
 
 
         return settingView;
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.setImage:
+                startActivity(new Intent(getActivity(), SetImageProfileActivity.class));
+                break;
+            case R.id.setLogout:
+                startActivity(new Intent(getActivity(), TestActivity.class));
+                break;
+        }
     }
 }
