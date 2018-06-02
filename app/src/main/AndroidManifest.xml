@@ -21,9 +21,17 @@
 
     <application
         android:allowBackup="true"
+<<<<<<< HEAD
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+=======
+        android:hardwareAccelerated="false"
+        android:icon="@drawable/title"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@drawable/title"
+>>>>>>> d0da73f... [수정] - 채팅 탭 제거
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
@@ -63,7 +71,8 @@
         </activity>
         <activity android:name=".SetImageProfileActivity" />
         <activity android:name=".ChatActivity" />
-        <activity android:name=".MenuActivity"></activity>
+        <activity android:name=".MenuActivity" />
+        <activity android:name=".TestActivity"></activity>
     </application>
 
 </manifest>

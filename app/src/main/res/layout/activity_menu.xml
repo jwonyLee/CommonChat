@@ -18,12 +18,16 @@
             android:layout_height="wrap_content"
             android:text="@string/tabFriend" />
 
+<<<<<<< HEAD
         <android.support.design.widget.TabItem
             android:id="@+id/tabChatList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tabChat" />
 
+=======
+        <!--설정목록-->
+>>>>>>> d0da73f... [수정] - 채팅 탭 제거
         <android.support.design.widget.TabItem
             android:id="@+id/tabSetting"
             android:layout_width="wrap_content"
