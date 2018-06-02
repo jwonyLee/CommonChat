@@ -1,5 +1,9 @@
 <resources>
+<<<<<<< HEAD
     <string name="app_name">CommonChat</string>
+=======
+    <string name="app_name">은근 쓸모있는 채팅앱</string>
+>>>>>>> add/commend
     <string name="login">로그인</string>
     <string name="email">이메일</string>
     <string name="password">비밀번호</string>

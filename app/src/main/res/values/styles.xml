@@ -3,9 +3,16 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+<<<<<<< HEAD
         <item name="colorPrimary">@color/colorMainBlue</item>
         <item name="colorPrimaryDark">@color/colorMainBlueDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+=======
+        <item name="colorPrimary">@color/colorMainGray</item>
+        <item name="colorPrimaryDark">@color/colorMainGrayDark</item>
+        <item name="colorAccent">@color/colorMainBlue</item>
+        <item name="android:textViewStyle">@font/font_bmjua</item>
+>>>>>>> add/commend
     </style>
 
     <!-- ActionBar styles -->

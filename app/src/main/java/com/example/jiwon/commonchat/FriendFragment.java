@@ -3,11 +3,19 @@ package com.example.jiwon.commonchat;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+<<<<<<< HEAD
+=======
+import android.graphics.Typeface;
+>>>>>>> add/commend
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+<<<<<<< HEAD
+=======
+import android.util.Log;
+>>>>>>> add/commend
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +31,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+<<<<<<< HEAD
+=======
+import java.util.List;
+>>>>>>> add/commend
 
 public class FriendFragment extends Fragment {
 
@@ -101,6 +113,10 @@ public class FriendFragment extends Fragment {
                                     // 어플 회원이면서 내 연락처의 저장되어있으면 친구 목록에 추가
                                     if (userDTO.getTel().equals(death)) {
                                         list_itemArrayList.add(new FriendDTO(R.mipmap.ic_launcher, userDTO.getName()));
+<<<<<<< HEAD
+=======
+
+>>>>>>> add/commend
                                         adapter = new FriendAdapter(getActivity(), list_itemArrayList);
                                         listView.setAdapter(adapter);
 
@@ -158,7 +174,10 @@ public class FriendFragment extends Fragment {
             }
         });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> add/commend
         return rootView;
     }
 

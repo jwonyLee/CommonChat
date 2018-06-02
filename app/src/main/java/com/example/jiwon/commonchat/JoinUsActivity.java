@@ -1,12 +1,24 @@
 package com.example.jiwon.commonchat;
 
+<<<<<<< HEAD
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+=======
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
+>>>>>>> add/commend
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+<<<<<<< HEAD
+=======
+import android.view.LayoutInflater;
+>>>>>>> add/commend
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,11 +33,19 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+<<<<<<< HEAD
+=======
+import org.w3c.dom.Text;
+>>>>>>> add/commend
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+<<<<<<< HEAD
 public class JoinUsActivity extends AppCompatActivity {
+=======
+public class JoinUsActivity extends AppCompatActivity implements View.OnClickListener{
+>>>>>>> add/commend
     private FirebaseAuth mAuth;
     private Context mContext;
     private final String TAG = "회원가입 액티비티";
@@ -49,14 +69,44 @@ public class JoinUsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_us);
 
+<<<<<<< HEAD
+=======
+        // 초기화
+        init();
+
+        // 리스너 설정
+        mReturnLogin.setOnClickListener(this);
+        mJoin.setOnClickListener(this);
+
+    }
+
+
+    private void init() {
+
+        // 커스텀 액션바 설정 및 적용
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(false);            //액션바 아이콘을 업 네비게이션 형태로 표시합니다.
+        actionBar.setDisplayShowTitleEnabled(false);        //액션바에 표시되는 제목의 표시유무를 설정합니다.
+        actionBar.setDisplayShowHomeEnabled(false);
+        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+        View actionbar = inflater.inflate(R.layout.action_title, null);
+
+        actionBar.setCustomView(actionbar);
+
+        // 변수 초기화
+>>>>>>> add/commend
         mEmail = (EditText) findViewById(R.id.editJoinEmail);
         mPassword = (EditText) findViewById(R.id.editJoinPassword);
         mPassword2 = (EditText) findViewById(R.id.editJoinPassword2);
         mJoin = (Button) findViewById(R.id.btnJoin);
         mReturnLogin = (TextView) findViewById(R.id.btnReturnJoin);
 
+<<<<<<< HEAD
 
         // 초기화
+=======
+>>>>>>> add/commend
         mContext = this;
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -75,6 +125,7 @@ public class JoinUsActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         Ref = database.getReference();
+<<<<<<< HEAD
 
 
         // 로그인 페이지 이동 리스너 추가
@@ -98,6 +149,11 @@ public class JoinUsActivity extends AppCompatActivity {
 
     }
 
+=======
+    }
+
+    // 회원가입 처리 함수
+>>>>>>> add/commend
     private void createAccount(final String email, final String password, String password2) {
         if (!isValidEmail(email)) {
             Log.e(TAG, "createAccount: email is not valid ");
@@ -189,4 +245,23 @@ public class JoinUsActivity extends AppCompatActivity {
         }
     }
 
+<<<<<<< HEAD
+=======
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnReturnJoin:
+                Intent intent = new Intent(JoinUsActivity.this, MainActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btnJoin:
+                String email = mEmail.getText().toString();
+                String password = mPassword.getText().toString();
+                String password2 = mPassword2.getText().toString();
+                createAccount(email, password, password2);
+                break;
+
+        }
+    }
+>>>>>>> add/commend
 }

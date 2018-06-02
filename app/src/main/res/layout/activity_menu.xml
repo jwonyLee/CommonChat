@@ -12,12 +12,17 @@
         app:tabMode="fixed"
         app:tabGravity="fill">
 
+<<<<<<< HEAD
+=======
+        <!--친구목록-->
+>>>>>>> add/commend
         <android.support.design.widget.TabItem
             android:id="@+id/tabFriendList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tabFriend" />
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         <android.support.design.widget.TabItem
             android:id="@+id/tabChatList"
@@ -28,6 +33,9 @@
 =======
         <!--설정목록-->
 >>>>>>> d0da73f... [수정] - 채팅 탭 제거
+=======
+        <!--설정목록-->
+>>>>>>> add/commend
         <android.support.design.widget.TabItem
             android:id="@+id/tabSetting"
             android:layout_width="wrap_content"

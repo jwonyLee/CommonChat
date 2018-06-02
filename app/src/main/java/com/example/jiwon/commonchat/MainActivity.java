@@ -1,6 +1,10 @@
 package com.example.jiwon.commonchat;
 
 import android.Manifest;
+<<<<<<< HEAD
+=======
+import android.app.ActionBar;
+>>>>>>> add/commend
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -9,7 +13,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.util.Log;
+=======
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
+import android.util.Log;
+import android.view.LayoutInflater;
+>>>>>>> add/commend
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,8 +52,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+<<<<<<< HEAD
 // 로그인 액티비티
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+=======
+// 로그인액티비티
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
+>>>>>>> add/commend
     private FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 9001;
     private GoogleApiClient mGoogleApiClient;
@@ -63,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public static final int MY_PERMISSIONS_REQUEST_CAMERA = 104;
 
 
+<<<<<<< HEAD
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -74,11 +92,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
 
+=======
+>>>>>>> add/commend
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+<<<<<<< HEAD
         checkPermission();
 
         // 초기화
@@ -89,6 +110,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mGoogle = (Button) findViewById(R.id.btnGoogle);
         mFacebook = (LoginButton) findViewById(R.id.btnFacebook);
 
+=======
+        init();
+        checkPermission();
+
+>>>>>>> add/commend
         // GoogleSignInOptions 생성
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder
                 (GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -106,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mAuth = FirebaseAuth.getInstance();
 
         // 구글 로그인 버튼 이벤트 > signInIntent 호출
+<<<<<<< HEAD
         mGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,17 +151,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
             }
         });
+=======
+        mGoogle.setOnClickListener(this);
+
+        // 이메일 로그인 버튼 이벤트
+        mLogin.setOnClickListener(this);
+
+        // 회원가입 페이지 이동 리스너 추가
+        mReturnJoin.setOnClickListener(this);
+>>>>>>> add/commend
 
         // 페이스북 로그인
         callbackManager = CallbackManager.Factory.create();
         mFacebook.setReadPermissions("email");
 
+<<<<<<< HEAD
         mFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
+=======
+        mFacebook.setOnClickListener(this);
+>>>>>>> add/commend
 
 
         LoginManager.getInstance().registerCallback(callbackManager,
@@ -159,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 });
 
 
+<<<<<<< HEAD
         // 회원가입 페이지 이동 리스너 추가
         mReturnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,6 +211,70 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         });
 
 
+=======
+    }
+
+    public void init() {
+        // 커스텀 액션바 설정 및 적용
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(false);            //액션바 아이콘을 업 네비게이션 형태로 표시합니다.
+        actionBar.setDisplayShowTitleEnabled(false);        //액션바에 표시되는 제목의 표시유무를 설정합니다.
+        actionBar.setDisplayShowHomeEnabled(false);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View actionbar = inflater.inflate(R.layout.action_title, null);
+
+        actionBar.setCustomView(actionbar);
+
+        // 초기화
+        mEmail = (EditText) findViewById(R.id.editEmail);
+        mPassword = (EditText) findViewById(R.id.editPassword);
+        mLogin = (Button) findViewById(R.id.btnLogin);
+        mReturnJoin = (TextView) findViewById(R.id.btnReturnJoin);
+        mGoogle = (Button) findViewById(R.id.btnGoogle);
+        mFacebook = (LoginButton) findViewById(R.id.btnFacebook);
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) { // 만약 로그인이 되어있으면 다음 액티비티 실행
+            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+            startActivity(intent);
+            finish();//
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            // 로그인 버튼 이벤트
+            case R.id.btnLogin:
+                LoginWithEmail(mEmail.getText().toString(), mPassword.getText().toString());
+                break;
+
+            // 구글 로그인 버튼 이벤트
+            case R.id.btnGoogle:
+                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                startActivityForResult(signInIntent, RC_SIGN_IN);
+                finish();
+                break;
+
+
+            // 회원가입으로 이동 버튼 이벤트
+            case R.id.btnReturnJoin:
+                Intent intent = new Intent(MainActivity.this, JoinUsActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+
+            // 페이스북 로그인 버튼 이벤트
+            case R.id.btnFacebook:
+                break;
+        }
+>>>>>>> add/commend
     }
 
 
@@ -218,6 +323,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             Toast.makeText(MainActivity.this, "로그인 실패",
                                     Toast.LENGTH_SHORT).show();
                         }
+<<<<<<< HEAD
+=======
+
+                        // ...
+>>>>>>> add/commend
                     }
                 });
 
@@ -254,6 +364,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> add/commend
     // 사용자가 정상적으로 로그인한 후에 GoogleSignInAccount 개체에서 ID 토큰을 가져와서
     //Firebase 사용자 인증 정보로 교환하고 Firebase 사용자 인증 정보를 사용해 Firebase에 인증합니다.
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {

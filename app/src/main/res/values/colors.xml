@@ -5,7 +5,14 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorMainGreen">#63d695</color>
     <color name="colorMainGreenDark">#29a467</color>
+<<<<<<< HEAD
     <color name="colorMainBlue">#005CFF</color>
     <color name="colorMainBlueDark">#0034cb</color>
+=======
+    <color name="colorMainBlue">#002cff</color>
+    <color name="colorMainBlueDark">#0000ca</color>
+    <color name="colorMainGray">#f2f2f2</color>
+    <color name="colorMainGrayDark">#bfbfbf</color>
+>>>>>>> add/commend
 
 </resources>

@@ -22,16 +22,22 @@
     <application
         android:allowBackup="true"
 <<<<<<< HEAD
+<<<<<<< HEAD
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
 =======
+=======
+>>>>>>> add/commend
         android:hardwareAccelerated="false"
         android:icon="@drawable/title"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:roundIcon="@drawable/title"
+<<<<<<< HEAD
 >>>>>>> d0da73f... [수정] - 채팅 탭 제거
+=======
+>>>>>>> add/commend
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
