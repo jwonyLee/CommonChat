@@ -1,7 +1,6 @@
 package com.example.jiwon.commonchat;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -10,9 +9,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,10 +25,12 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -50,13 +48,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private FirebaseAuth mAuth;
     private static final int RC_SIGN_IN = 9001;
     private GoogleApiClient mGoogleApiClient;
+    private GoogleSignInClient mGoogleSignInClient;
+
     private final String TAG = "MainActivity";
 
     private EditText mEmail;
     private EditText mPassword;
     private Button mLogin;
     private TextView mReturnJoin;
-    private Button mGoogle;
 
     private CallbackManager callbackManager;
     private LoginButton mFacebook;
@@ -77,23 +76,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         checkPermission();
 
         // GoogleSignInOptions 생성
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder
-                (GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
+        /*
         // Google 로그인을 위한 객체 생성
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+        */
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
 
         // 로그인 작업의 onCreate 메소드에서 FirebaseAuth 개체의 공유 인스턴스
         mAuth = FirebaseAuth.getInstance();
 
         // 구글 로그인 버튼 이벤트 > signInIntent 호출
-        mGoogle.setOnClickListener(this);
+        findViewById(R.id.btnGoogle).setOnClickListener(this);
 
         // 이메일 로그인 버튼 이벤트
         mLogin.setOnClickListener(this);
@@ -149,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mPassword = (EditText) findViewById(R.id.editPassword);
         mLogin = (Button) findViewById(R.id.btnLogin);
         mReturnJoin = (TextView) findViewById(R.id.btnReturnJoin);
-        mGoogle = (Button) findViewById(R.id.btnGoogle);
         mFacebook = (LoginButton) findViewById(R.id.btnFacebook);
     }
 
@@ -165,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -175,9 +178,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
             // 구글 로그인 버튼 이벤트
             case R.id.btnGoogle:
-                Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, RC_SIGN_IN);
-                finish();
+                signIn();
                 break;
 
 
@@ -248,34 +249,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //페이스북 로그인
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
-        //구글 로그인
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()) {
-
-                // 구글 로그인 성공시, 파이어베이스에 인증된 후 로그인화면에서 전환
-                GoogleSignInAccount account = result.getSignInAccount();
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
+
                 Intent intent = new Intent(MainActivity.this, SetProfileActivity.class);
                 startActivity(intent);
-                finish();
-
-            } else {
-                Toast.makeText(MainActivity.this, "로그인 실패",
-                        Toast.LENGTH_SHORT).show();
-
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
                 // ...
-
             }
-
         }
-
-
     }
 
 
@@ -289,13 +283,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //로그인 실패시, 유저 메세지 화면에 띄워짐. 만약 성공한다면
                         //인증에 성공한 유저에게 메시지를 띄워주고 로그인 화면에서 프로필 화면으로 전환
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "인증에 실패하였습니다.", Toast.LENGTH_SHORT).show();
-                        } else {
+                        if (task.isSuccessful()) {
+                            Log.d("google-login", "create id!");
                             Toast.makeText(MainActivity.this, "FireBase 아이디 생성이 완료 되었습니다", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             startActivity(new Intent(MainActivity.this, SetProfileActivity.class));
                             finish();
+                        } else {
+                            Log.d("google-login", "id fail");
+                            Toast.makeText(MainActivity.this, "인증에 실패하였습니다.", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -303,6 +299,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
     }
+
+
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -427,6 +425,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 return;
             }
         }
+    }
+
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
 }

@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class SettingFragment extends Fragment implements View.OnClickListener{
     public SettingFragment() {};
     LinearLayout setImage;
@@ -41,7 +44,9 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), SetImageProfileActivity.class));
                 break;
             case R.id.setLogout:
-                startActivity(new Intent(getActivity(), TestActivity.class));
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getActivity(), MainActivity.class));
+                getActivity().finish();
                 break;
         }
     }
