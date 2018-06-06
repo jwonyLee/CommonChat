@@ -27,32 +27,6 @@
             android:fontFamily="@font/font_bmjua"/>
     </LinearLayout>
 
-    <!--알림 설정-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:id="@+id/setAlram"
-        android:layout_gravity="center_vertical">
-
-        <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/alarm"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="19dp"
-            android:text="알림 설정"
-            android:layout_marginLeft="25dp"
-            android:fontFamily="@font/font_bmjua"/>
-        <!--<ToggleButton-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textOn="On"-->
-        <!--android:textOff="Off"/>-->
-
-    </LinearLayout>
 
         <!--로그아웃-->
     <LinearLayout

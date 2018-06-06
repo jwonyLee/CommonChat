@@ -17,7 +17,6 @@ public class SettingFragment extends Fragment implements View.OnClickListener{
     public SettingFragment() {};
     LinearLayout setImage;
     LinearLayout setLogout;
-    LinearLayout setAlram;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

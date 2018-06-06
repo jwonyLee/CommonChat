@@ -67,7 +67,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final String TAG = "ChatActivity";
     private Uri filePath;
-    String imgUri;
+    String imgmessageText;
+    ImgMessageDTO imgmessage;
 
     SingleTouchView stv;
     private LinearLayout linear;
@@ -95,7 +96,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     Map<String, String> map = new HashMap<String, String>();
     String messageText;
 
-    boolean flag = false;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -323,86 +323,24 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    //storage
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    // 그림메모 저장하는 파일 이름명 정해주기
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
+    Date now = new Date();
+    String filename = formatter.format(now) + ".png";
+    // 그림메모 이미지 파일 저장해주는 url 경로
+    StorageReference storageRef = storage.getReferenceFromUrl("gs://commonchat-58d3d.appspot.com").child("images/" + filename); //ok
+
+
     // 그림메모 전송 버튼 누를시, 채팅방에 그림메모 출력
-    public void onSendMemo(View v) {
+    public void onSendMemo(final View v) {
 
-        ref.child("messages").child(roomname).addChildEventListener(new com.google.firebase.database.ChildEventListener() {
-            //자기자신인 경우 오른쪽, 상대방일 경우 왼쪽 정렬을 해준다.
-            public void onChildAdded(com.google.firebase.database.DataSnapshot dataSnapshot, String s) {
-                MessageDTO messageDTO = dataSnapshot.getValue(MessageDTO.class);
-                if (messageDTO.getUser().equals(myname))
-                    addImgMessageBox(filePath,1);           ////////////
-
-                else
-                    addImgMessageBox(filePath,2);
-            }
-
-            @Override
-            public void onChildChanged(com.google.firebase.database.DataSnapshot dataSnapshot, String s) {    }
-
-            @Override
-            public void onChildRemoved(com.google.firebase.database.DataSnapshot dataSnapshot) {   }
-
-            @Override
-            public void onChildMoved(com.google.firebase.database.DataSnapshot dataSnapshot, String s) {   }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {  }
-        });
-
-    }
-
-    // 채팅내용을 TextView에 담아 채팅방에 출력
-    public void addMessageBox(String message, int type) {
-        // ChatActivity클래스에 텍스트뷰 생성(보내지는 대화메세지들을 화면에 띄우기 위해)
-        TextView textView = new TextView(ChatActivity.this);
-        textView.setText(message);
-
-        Typeface typeface = getResources().getFont(R.font.font_bmjua);
-        textView.setTypeface(typeface);
-        textView.setTextSize(24);
-        textView.setPadding(10,10,10,10);
-
-        // LayoutParams : 여백의 값(너비, 높이) 설정할 수 있게 해줌     // 현재 설정되어 있는 레이아웃 파라미터를 조사
-        LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp2.weight = 1.0f;  // 가중치 주기
-
-        if (type == 1) {   //LinearLayout에 해당하는 속성은 오른쪽정렬
-            lp2.gravity = Gravity.RIGHT;
-
-        } else {   //LinearLayout에 해당하는 속성은 왼쪽정렬
-            lp2.gravity = Gravity.LEFT;
-        }
-
-        textView.setLayoutParams(lp2);      // textView(메세지)에 새로운 파라미터 적용
-        layout.addView(textView);           // LinearLayout에 textView 추가 시키기(주고받는 메시지 영역에 추가)
-        scrollView.fullScroll(ScrollView.FOCUS_DOWN); // 스크롤 가장 아래로 보내기(채팅시, 가장 최근 대화내용이 보일 수 있도록)
-    }
-
-
-  // 그림 메모를 ImageView에 담아 채팅방에 출력
-    public void addImgMessageBox(Uri uri, int type) {
         // ChatActivity클래스에 텍스트뷰 생성(보내지는 대화메세지들을 화면에 띄우기 위해)
         final ImageView imgView = new ImageView(ChatActivity.this);
+
         File screenShot = ScreenShot(stv);          ////
         filePath = Uri.fromFile(screenShot);
-        imgView.setImageURI(filePath);
-
-        // LayoutParams : 여백의 값(너비, 높이) 설정할 수 있게 해줌     // 현재 설정되어 있는 레이아웃 파라미터를 조사
-        LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        lp2.weight = 1.0f;  // 가중치 주기
-
-        if (type == 1) {   //LinearLayout에 해당하는 속성은 오른쪽정렬
-            lp2.gravity = Gravity.RIGHT;
-
-        } else {   //LinearLayout에 해당하는 속성은 왼쪽정렬
-            lp2.gravity = Gravity.LEFT;
-        }
-
-        imgView.setLayoutParams(lp2);      // textView(메세지)에 새로운 파라미터 적용
-        layout.addView(imgView);           // LinearLayout에 textView 추가 시키기(주고받는 메시지 영역에 추가)
-        scrollView.fullScroll(ScrollView.FOCUS_DOWN); // 스크롤 가장 아래로 보내기(채팅시, 가장 최근 대화내용이 보일 수 있도록)
-
 
         if (screenShot != null) {
             // storage에 업로드 진행 Dialog 보이기
@@ -423,12 +361,66 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                                 storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                     //성공시 이미지 출력
                                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                        Toast.makeText(getApplicationContext(), "다운로드 완료!", Toast.LENGTH_SHORT).show();
-                                    }// 실패시 메세지 출력
+                                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                        imgView.setImageBitmap(bitmap);
+
+
+                                        // LayoutParams : 여백의 값(너비, 높이) 설정할 수 있게 해줌     // 현재 설정되어 있는 레이아웃 파라미터를 조사
+                                        LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                        lp2.weight = 1.0f;  // 가중치 주기
+
+                                        imgView.setLayoutParams(lp2);      // textView(메세지)에 새로운 파라미터 적용
+                                        layout.addView(imgView);           // LinearLayout에 textView 추가 시키기(주고받는 메시지 영역에 추가)
+                                        scrollView.fullScroll(ScrollView.FOCUS_DOWN); // 스크롤 가장 아래로 보내기(채팅시, 가장 최근 대화내용이 보일 수 있도록)
+
+                                        linear.setVisibility(v.GONE);
+                                        sendMemo.setVisibility(v.GONE);
+
+                                        final String imgmessageText = storageRef.toString();
+                                        // 데이터베이스에 유저이름과 메시지를 데이터베이스에 넣어준다.
+
+                                        if (!imgmessageText.equals("")) {
+
+                                            ref.child("users").orderByChild("email").equalTo(mAuth.getCurrentUser().getEmail()).addChildEventListener(new com.google.firebase.database.ChildEventListener() {
+                                                @Override
+                                                public void onChildAdded(com.google.firebase.database.DataSnapshot dataSnapshot, String s) {
+                                                    UserDTO userDTO = dataSnapshot.getValue(UserDTO.class);
+                                                    username = userDTO.getName();
+                                                    imgmessage = new ImgMessageDTO(imgmessageText, username);
+                                                    ref1.push().setValue(message);   //데이터베이스에 값넣어주기
+                                                    ref2.push().setValue(message);
+                                                    messageArea.setText("");
+                                                }
+
+                                                @Override
+                                                public void onChildChanged(com.google.firebase.database.DataSnapshot dataSnapshot, String s) {
+                                                }
+
+                                                @Override
+                                                public void onChildRemoved(com.google.firebase.database.DataSnapshot dataSnapshot) {
+                                                }
+
+                                                @Override
+                                                public void onChildMoved(com.google.firebase.database.DataSnapshot dataSnapshot, String s) {
+                                                }
+
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
+                                                }
+                                            });
+
+                                        }
+
+
+
+
+                                    }
+
+                                    // 실패시 메세지 출력
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception exception) {
-                                        Toast.makeText(getApplicationContext(), "다운로드 실패!", Toast.LENGTH_SHORT).show();
+
                                     }// progress 진행 상황
                                 }).addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
                                     @Override
@@ -458,7 +450,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             @SuppressWarnings("VisibleForTests")
-                                    double progress = (100 * taskSnapshot.getBytesTransferred()) /  taskSnapshot.getTotalByteCount();
+                            double progress = (100 * taskSnapshot.getBytesTransferred()) /  taskSnapshot.getTotalByteCount();
                             //dialog에 진행률을 퍼센트로 출력해 준다
                             progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
                         }
@@ -469,32 +461,42 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-        // 이미지를 데이터베이스에 넣기
-        final String imgUri = filePath.toString();
-        ref.child("users").orderByChild("email").equalTo(mAuth.getCurrentUser().getEmail()).addChildEventListener(new com.google.firebase.database.ChildEventListener() {
-            @Override
-            public void onChildAdded(com.google.firebase.database.DataSnapshot dataSnapshot, String s) {
-                UserDTO userDTO = dataSnapshot.getValue(UserDTO.class);
-                username = userDTO.getName();
-                message = new MessageDTO(imgUri, username);
-                ref1.push().setValue(message);   //데이터베이스에 값넣어주기
-                ref2.push().setValue(message);
-                messageArea.setText("");
-                ref.child("users").orderByChild("email").equalTo(mAuth.getCurrentUser().getEmail()).removeEventListener(this);
-            }
 
-            @Override
-            public void onChildChanged(com.google.firebase.database.DataSnapshot dataSnapshot, String s) { }
 
-            @Override
-            public void onChildRemoved(com.google.firebase.database.DataSnapshot dataSnapshot) { }
+    }
 
-            @Override
-            public void onChildMoved(com.google.firebase.database.DataSnapshot dataSnapshot, String s) { }
+    // 채팅내용을 TextView에 담아 채팅방에 출력
+    public void addMessageBox(String message, int type) {
+        // ChatActivity클래스에 텍스트뷰 생성(보내지는 대화메세지들을 화면에 띄우기 위해)
+        TextView textView = new TextView(ChatActivity.this);
+        textView.setText(message);
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) { }
-        });
+        Typeface typeface = getResources().getFont(R.font.font_bmjua);      // API레벨과 폰트가 맞지않아 오류가 뜨는 것이므로 무시해도 무방함.
+        textView.setTypeface(typeface);
+        textView.setTextSize(24);
+        textView.setPadding(10,10,10,10);
+
+        // LayoutParams : 여백의 값(너비, 높이) 설정할 수 있게 해줌     // 현재 설정되어 있는 레이아웃 파라미터를 조사
+        LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp2.weight = 1.0f;  // 가중치 주기
+
+        if (type == 1) {   //LinearLayout에 해당하는 속성은 오른쪽정렬
+            lp2.gravity = Gravity.RIGHT;
+            textView.setBackgroundResource(R.drawable.rounded_corner1);
+
+        } else {   //LinearLayout에 해당하는 속성은 왼쪽정렬
+            lp2.gravity = Gravity.LEFT;
+            textView.setBackgroundResource(R.drawable.rounded_corner2);
+        }
+
+        textView.setLayoutParams(lp2);      // textView(메세지)에 새로운 파라미터 적용
+        layout.addView(textView);           // LinearLayout에 textView 추가 시키기(주고받는 메시지 영역에 추가)
+        scrollView.fullScroll(ScrollView.FOCUS_DOWN); // 스크롤 가장 아래로 보내기(채팅시, 가장 최근 대화내용이 보일 수 있도록)
+    }
+
+
+    // 그림 메모를 ImageView에 담아 채팅방에 출력
+    public void addImgMessageBox(Uri uri, int type) {
 
 
     }
@@ -531,15 +533,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-    //storage
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-    // 그림메모 저장하는 파일 이름명 정해주기
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
-    Date now = new Date();
-    String filename = formatter.format(now) + ".png";
-    // 그림메모 이미지 파일 저장해주는 url 경로
-    StorageReference storageRef = storage.getReferenceFromUrl("gs://commonchat-58d3d.appspot.com").child("images/" + filename); //ok
 
     // 그림메모 부분만 캡쳐하기
     private File ScreenShot(View view) {
